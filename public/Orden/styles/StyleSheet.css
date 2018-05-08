@@ -1,0 +1,536 @@
+@import url(http://fonts.googleapis.com/css?family=Rouge+Script|
+Julius+Sans+One);
+
+@import url(https://fonts.googleapis.com/css?family=Allura|Fjalla+One);
+@font-face {
+font-family: FontOrden;
+src: url('https://fonts.googleapis.com/css?family=Allura|Fjalla+One'),
+url('Fancy_Light.eot'); /* IE9 */
+}
+
+
+* {
+
+    font-family: Julius Sans One, sans-serif;
+	font-size:12px;
+
+
+}
+
+.section {
+	position:relative;
+	float:left;
+}
+
+section {
+	position:relative;
+	float:left;
+	padding-right:5px;
+}
+
+body {
+        background-color:#fff;
+        border:solid 0px;
+        padding:1% 1% 1% 1%;
+		border-color: rgba(100,100,100,0.7);
+		width:860px;
+}
+
+@media print {
+    body{
+        width: 96%;
+    }
+}
+
+
+.encabezado {
+    border-bottom:solid 2px black;
+	border-color: rgba(100,100,100,0.9);
+    width:100%;
+    margin-bottom:1%;
+    overflow:hidden;
+
+}
+
+#Ventana {
+    border-top: solid 1px;
+    border-left:solid 1px;
+    border-right:solid 1px;
+    border-radius: 4px 4px;
+    position:relative;
+    width:20%;
+}
+
+
+#container {
+    position:relative;
+    float: left;
+    width:60px;
+    padding:0% 0% 0% 0%;
+}
+#container img {
+    width:50px;
+
+}
+
+#Empresa{
+    position: relative;
+    float:left;
+    width: 85%;
+    padding: 0% 0% 0% 4%;
+
+
+}
+
+#NoOrden {
+    position: relative;
+    float: left;
+    font-size: inherit;
+    width:100%;
+    min-width:100px;
+    display:block;
+}
+
+    .Numero , #NoOrden section{
+        border: solid 1px;
+        border-radius: 4px 4px;
+        margin: 1% 1% 1% 1%;
+        position: relative;
+        float:left;
+        width:70%;
+        text-align:center;
+        background-color:rgba(178, 248, 250,0.7);
+        background-color:#87DECD;
+		border-color: rgba(100,100,100,0.9);
+		font-size:20px;
+
+    }
+	 .Estatus, #NoOrden section:nth-child(2){
+        border: solid 1px;
+        border-radius: 4px 4px;
+        margin: 1% 1% 1% 1%;
+        position: relative;
+        float:left;
+        width:70%;
+		font-size:14px;
+		background-color:white;
+	 }
+
+	.Numero strong{
+		font-size:20px;
+	}
+
+	.two {
+	 border: solid 1px;
+    border-radius: 4px 4px;
+    margin: 1% 1% 1% 1%;
+    position: relative;
+    float: right;
+     right: 10px;
+
+	text-align:center;
+
+    background-color:rgba(178, 248, 250,0.7);
+    background-color:#87DECD;
+	border-color: rgba(60,60,60,0.8);
+
+	width:150px;
+
+	}
+
+	.two section, .two strong {
+	font-size:18px;
+	}
+
+
+
+
+.Refacciones,
+.DatosEquipo, .DatosCliente, .Accesorios, .Servicio, .Diagnostico {
+    margin-bottom:3px ;
+     border-top: solid 2px;
+    border-bottom:solid 2px;
+	border-left:solid 2px;
+	border-right:solid 2px;
+
+    border-color: #999;
+    width:96%;
+    padding: 1% 1% 1% 1%;
+    overflow:hidden;
+    min-width:150px;
+	border-color: rgba(100,100,100,1);
+	border-collapse:separate !important;
+
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+
+
+
+}
+.Partida {
+   clear: both;
+   border-bottom: 1px dashed black;
+   padding-bottom: 2px;
+}
+.Partida:nth-child(1) {
+border-bottom: 1px dashed white;
+}
+
+.Partida .section , .partida section{
+position: relative;
+float: left;
+padding-top: 2px;
+padding-bottom: 2px;
+padding-right:5px;
+font-size:0.9em;
+}
+.Observ {
+width: 70%;
+}
+.Cantidad {
+width: 5%;
+}
+
+.Precio {
+float: right;
+width: 15%;
+text-align:right;
+font-size:0.9em;
+}
+
+.total {
+clear:both;
+position:realtive;
+float: left;
+width: 95%;
+text-align: right;
+padding-right: 15%;
+}
+
+    .DatosCliente  .section, .Accesorios .section, .Servicio .section, .DatosCliente  section, .Accesorios section, .Servicio section  {
+        position: relative;
+        float: left;
+        padding-right: 5px;
+    top: 0px;
+    left: 3px;
+}
+
+    .DatosEquipo .section, .DatosEquipo section {
+        position: relative;
+        float: left;
+        padding-right: 20px;
+    }
+
+.Contenedor {
+    position: relative;
+    width: 60%;
+    float: left;
+    min-width:200px;
+	height:420px;
+
+}
+
+.Contenedor2 {
+    position: relative;
+    width: 60%;
+    float: left;
+    min-width:200px;
+
+
+}
+
+.Datos {
+    margin-left:1%;
+    border-style: dashed;
+    border-color: inherit;
+    border-width: 2px;
+    position: relative;
+    width:37%;
+   float:left;
+   min-width:100px;
+   padding:4px;
+}
+
+.Fila{
+    width: 100%;
+}
+
+.salto {
+    padding-bottom: 10px;
+}
+
+.Obser,  .Problema {
+    clear:both;
+    position:relative;
+    float: none;
+    background-color:#87DECD;
+    min-width: 200px;
+    border-radius:4px;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label span {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(https://googledrive.com/host/0B72DavbvIbsfMWJLMW8yQnBmLWM/icon-checkmark-round.svg)  16px left top no-repeat;
+    cursor:pointer;
+    position:relative;
+    float:left;
+
+}
+input[type="checkbox"]:checked + label span {
+    background:url(https://googledrive.com/host/0B72DavbvIbsfMWJLMW8yQnBmLWM/icon-close-round.svg) 16px left top no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+
+
+
+
+footer {
+   padding:1%;
+   clear: both;
+}
+
+footer  {
+	border-top:1px dashed;
+	border-color: rgba(50,50,50,1);
+}
+
+table  {
+    width: 100%;
+    font-size:10px;
+
+}
+    table th {
+
+	  border:1px dashed ;
+	  border-color: rgba(100,100,100, 0.8);
+    }
+
+	.auto-style1 p{
+	padding:2px;
+	}
+
+  .auto-style2{
+    padding-left: 20px;
+  }
+
+.Terminos {
+    position: relative;
+    float: left;
+    width: 48%;
+    padding: 2px;
+    min-width:300px;
+
+}
+.punteada{
+    margin-top: 10px;
+}
+
+.punteada  p {
+padding:2px;
+}
+
+    .Terminos ol li {
+        font-size: 7px;
+    }
+
+li strong {
+    font-size: 7px;
+    font-weight: bold;
+}
+
+#Tittleimg {
+    position: relative;
+    float: left;
+    width:16px;
+}
+
+
+.img1 {
+    position: relative;
+    float: left;
+    width: 20px;
+}
+
+#Checkbox1 {
+    flex-align: center;
+}
+
+.EmpDir {
+    position: relative;
+    float: left;
+    width: 48%;
+    border:dashed 1px white;
+    min-width:200px;
+	font-family: Fjalla One, sans-serif;
+	font-size:12px;
+	color: rgba(40,40,40,0.9)
+}
+
+
+    .Dos{
+        text-align: right;
+		position:relative;
+		float:left;
+    }
+
+    @media all and (max-width:320px), screen and (max-width:768px) {
+    .Contenedor, .Datos, #Empresa, .EmpDir, .Contenedor2 {
+        clear:both;
+        width: 96%;
+    }
+
+
+}
+
+@media all and (max-width:320px) {
+     .section .fecha {
+        clear: both;
+        float:left;
+    }
+
+
+   .Dos {
+        visibility: hidden;
+       display: none;
+    }
+
+}
+.EmpNombre {
+    font-size: 16px;
+    font-family: FontOrden;
+    width: 80%;
+}
+
+.social {
+    position: relative;
+    float: left;
+    width:40px;
+    height:40px;
+    stroke:aquamarine;
+    fill:#2656d9;
+
+}
+
+.fotos{
+	width:30px;
+	position:relative;
+	float: left;
+}
+
+.fotos:hover {
+width:40px;
+
+}
+
+.fot{
+position:relative;
+float:left;
+padding:3px;
+background-color:rgba(120,200,100,0.5);
+font-size: 14px;
+color: rgba(50,50,50, 0.7);
+
+}
+.oculto{
+display:none;
+}
+
+/*
+.imagenes {
+	position: fixed;
+	width:100%;
+	height:100%;
+	left:-20px;
+	top:0px;
+	background-color:rgba(0,0,0,0.8);
+	overflow:hidden;
+}
+*/
+.galery img  {
+	position:relative;
+	float:left;
+	width:20%;
+	margin-bottom:25px;
+	margin-left:25px;
+    padding: 5px;
+	}
+
+
+.cerrar{
+	position:absolute;
+	top:20px;
+	left:85%;
+    display: none;
+}
+
+.cerrar img{
+	width:40px;
+}
+
+
+.galery img:hover{
+
+}
+.cerrar.ex img{
+	animation-duration:3s;
+	animation-name:slidein;
+	}
+
+.zoom {
+position: absolute;
+width:30%;
+top:10%;
+left:30%;
+}
+
+.Equip {
+    position: relative;
+    float:left;
+    padding-bottom: 5px;
+
+    width: 100%;
+
+}
+
+.arrowup, .arrowdown {
+    width: 30px;
+    position:relative;
+    top:95%;
+    clear: both;
+
+}
+
+.arrowup2, .arrowdown2 {
+	clear: both;
+    width: 30px;
+    position:relative;
+    top:95%;
+
+}
+
+.evento {
+    border-top:dashed 1px;
+
+    margin:4px;
+    width:95%;
+    padding: 4px;
+}
+
+.espacio {
+    padding-right: 20px;
+}
+
+.fecha {
+    position:relative;
+    float: right;
+}
