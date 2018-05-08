@@ -14,8 +14,7 @@ var insecurePort = process.argv[3] || 1337;
 var insecureServer;
 
 var fs = require("fs");
-var http = require("http");
-var https = require('https')
+var https = require('https');
 var certsPath = path.join(__dirname, 'certs');
 var options = {
     key : fs.readFileSync(path.join(certsPath, 'grupocfapp.key')),
