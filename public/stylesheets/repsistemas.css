@@ -1,0 +1,40 @@
+.partidas div {
+  position:relative;
+  float:left;
+}
+
+.partidas{
+  width:100%;
+  clear:both;
+  border:solid 1px;
+  display:table;
+}
+.fecha{
+  width:100%;
+  clear:both;
+  margin-top:15px;
+  margin-bottom: 20px;
+}
+.nombre{
+  clear:both;
+  margin-top:15px;
+}
+body{
+  margin-left:20px;
+  margin-right:20px;
+  margin-top:70px;
+  width: 750px;
+  font-size: 1.2em;
+  background-color:rgb(242, 242, 242)!important;
+}
+
+.partidas > div{
+  padding: 3px;
+}
+
+@media print {
+  body{
+    margin-top:0px;
+    background-color:rgb(255, 255, 255)!important;
+  }
+}

@@ -1,0 +1,12 @@
+﻿body {
+}
+
+#nombreCliente{
+    padding:5px!important;
+    font-size:1em;
+}
+
+#clientes > ul, #products > ul{
+  width:80%;
+  left:20px;
+}

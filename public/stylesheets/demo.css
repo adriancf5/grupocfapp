@@ -1,0 +1,95 @@
+/*Styles are only required for the application demo.*/
+
+
+#webcam, #canvas, #output {
+	width: 100%;
+	height:231px;
+	border:5px solid #333;
+	background:#eee;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow:hidden;
+    margin-right:5px;
+}
+ #canvas{
+     width:160px;
+     height:140px;
+ }
+ #imagesN{
+     width:100%;
+     overflow:hidden;
+ }
+
+#webcam {
+	position:relative;
+	margin-bottom:10px;
+}
+
+#webcam > span {
+	z-index:2;
+	position:absolute;
+	color:#eee;
+	font-size:10px;
+	bottom: -16px;
+	left:152px;
+}
+
+#webcam video{
+	margin-top:-9px; /*forced vertical centering*/
+}
+
+#webcam > img {
+	z-index:1;
+	position:absolute;
+	border:0px none;
+	padding:0px;
+	bottom:-40px;
+	left:89px;
+}
+
+
+#webcam a {
+	background:#fff;
+	font-weight:bold;
+}
+
+#webcam a > img {
+	border:0px none;
+}
+
+#canvas {
+	border:5px solid #ccc;
+	background:#eee;
+}
+
+#flash {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:5000;
+	width:100%;
+	height:500px;
+	background-color:#c00;
+	display:none;
+}
+
+object {
+	display:block;
+	position:relative;
+	z-index:1000;
+	margin-top:9px; /*forced vertical centering*/
+}
+
+#takeSnapshot{
+    position:absolute;
+    left:75%;
+    top:8%;
+    font-size:3em;
+    color:#ffb53e;
+}
+
+#takeSnapshot:hover{
+    color:#ccc;
+    
+}
