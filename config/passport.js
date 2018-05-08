@@ -8,10 +8,7 @@ var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./config');
 var Connection = require('tedious').Connection,
     Request = require('tedious').Request
-    //TYPES = require('tedious').TYPES;
 var config = dbconfig.params
-//var connstring = dbconfig.localDB;
-//var connection = mysql.createConnection(dbconfig.connection);
 
 var connectionString = dbconfig.SQL_CONN;
 const friendly = require('tedious-friendly');
@@ -36,7 +33,6 @@ module.exports = function (passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-        //console.log(user);
         done(null, user.Id);
     });
 
@@ -51,11 +47,7 @@ module.exports = function (passport) {
             }
                 done(err, user);; // --> [{ id: '8F41C105-1D24-E511-80C8-000C2927F443', email: 'bart@hotmail.com' }]
         });
-        //mysql.open(connstring, function (err, conn) {
-            //conn.query("select * from usuariosWeb where id = " + id, function (err, user) {
-                //done(err, user);
-            //});
-        //});
+ 
     });
 
     // =========================================================================

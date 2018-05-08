@@ -49,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes ======================================================================
 require('./config/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 require('./config/POST.js')(app, passport);
+require('/config/polizas.js')(app, passport);
 
 // Take error Messsages
 app.use(function(err,req, res, next){

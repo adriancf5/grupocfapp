@@ -1,12 +1,9 @@
 // app/routes.js
 
-//var mysql = require('msnodesql');
 var dbconfig = require('./config');
 
-//var connstring = dbconfig.SQL_CONN;
 var connstring = dbconfig.localDB;
 var Drive = dbconfig.DriveN;
-//var upload_middleware = require('../node_modules/upload-middleware/index');
 var bcrypt = require('bcrypt-nodejs');
 var sendE = require('./sendEmail.js');
 var logs = require('./logs.js')
