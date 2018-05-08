@@ -1,0 +1,118 @@
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
+var flash = require('connect-flash');
+var checkip = require('check-ip-address');
+
+var port = process.argv[2] || 443;
+var insecurePort = process.argv[3] || 1337;
+var insecureServer;
+
+var fs = require("fs");
+var http = require("http");
+var https = require('https')
+var certsPath = path.join(__dirname, 'certs');
+//var co = fs.readFileSync('./Files/letsencryptauthorityx1.pem')
+var options = {
+    key : fs.readFileSync(path.join(certsPath, 'grupocfapp.key')),
+    ca :  fs.readFileSync(path.join(certsPath, 'gd_bundle-g2-g1.crt')),
+    cert: fs.readFileSync(path.join(certsPath, '78fa81a6daf77206.crt')),
+    requestCert: false
+, rejectUnauthorized: false
+}
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+require('./config/passport')(passport); // pass passport for configuration
+
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({ secret: 'everylikepeople' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+// routes ======================================================================
+require('./config/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+//require('./config/pdfTemplate.js')(app, passport);
+require('./config/POST.js')(app, passport);
+//require('./config/tediousCon.js')
+
+
+// Take error Messsages
+app.use(function(err,req, res, next){
+    res.writeHead(err.status || 500,{
+        'WWW-Authenticate': 'Basic',
+        'Content-Type': 'text/plain'
+    });
+    res.end(err.message);
+})
+
+app.use('/', index);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+server = https.createServer(options, app).listen('443', function () {
+    console.log('listening on port 443')
+
+})
+
+
+insecureServer = http.createServer();
+insecureServer.on('request', function (req, res) {
+     //TODO also redirect websocket upgrades
+      try {
+         var rep = req.headers.host.replace(/:\d+/, ':' + port)
+      }
+      catch(err) {
+          console.log(err)
+          var rep = 'grupocfapp.com';
+      }
+        res.setHeader(
+        'Location'
+        , 'https://' + rep + req.url
+        );
+
+    res.statusCode = 302;
+    res.end();
+});
+insecureServer.listen(insecurePort , "0.0.0.0", function () {
+    console.log("\nRedirecting all http traffic to https\n");
+});
+//app.listen();
+//module.exports = app;
