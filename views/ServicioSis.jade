@@ -1,0 +1,67 @@
+div.row.ordenContent
+    div.col-sm-12
+        div.pann
+            div.col-sm-6
+                section.contact
+                    | Cliente
+                    if (user.admon === 1)
+                        a(href='deleteSis/?id='+ servicio.id + '' TARGET="_BLANK" style="font-size:1.4em!Important;").ion-android-trash.pull-right
+                        
+                div
+                    =servicio.CLIENTE
+                div
+                    strong
+                        =servicio.NOMBRE
+                div
+                    =servicio.TELEFONO
+                div Reporto:
+                    strong
+                        =' ' + servicio.clientenr 
+                div
+                    =servicio.CALLE + ', ' + servicio.COLONIA + ', ' + servicio.POBLA + ', ' +  servicio.ESTADO
+
+            div.col-sm-6
+                section.DatosEquipo
+                    |Datos del Servicio
+                    a(href='ordenSisFile/?id='+ servicio.id + '' TARGET="_BLANK" style="font-size:1.5em!Important;").ion-clipboard.pull-right
+                div
+                    strong
+                        =servicio.soporte
+                        
+                if (servicio.comentarios != "")
+                    div Descripcion del Servicio:
+                        strong
+                            =' ' + servicio.comentarios
+                div Atendio: 
+                    strong
+                        =' ' + servicio.usuario
+                div Tiempo:
+                    strong
+                        =' ' + servicio.tiempo
+
+                  
+            div
+                section.Adicionales
+                    | Venta
+         
+                if (servicio.venta > 0)
+                    span.padding-lrm Numero de venta :
+                    span.noVenta
+                        strong
+                            =venta.venta
+                    
+                    div Estado: 
+                        strong
+                            =' ' + venta.estado
+                    if (venta.estado == 'CO')
+                        div Documento: 
+                            strong
+                                =' ' + venta.serieDocumento + '-' + venta.no_referen
+                    div Total:
+                        strong
+                            - var total = venta.importe + venta.impuesto
+                            =' $ ' + total
+                            
+            div(style="margin-bottom:20px;")
+                        
+                            

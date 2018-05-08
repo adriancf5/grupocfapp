@@ -1,0 +1,15 @@
+﻿
+- var n = 0;
+- var m = 1;
+      
+for i in imagen
+    if (i.serieWeb)
+        - var serie = i.Serie.trim();
+        - var orden = i.OrdenNo.trim() 
+        img(style="width:150px; margin:10px;" src='..'+ i.Imagen + '' name=serie  value=orden).img
+    if (!i.serieWeb)
+        - n = n + 1;
+        - var serie = i.Serie.trim();
+        - var orden = i.OrdenNo.trim() 
+        img(style="width:150px; margin:10px;" src=drive+serie+'-'+orden+'-'+n+'.jpg' name=serie  value=orden).img
+

@@ -1,0 +1,107 @@
+﻿div(id="OrdenesN" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true").no-print
+    div(class="modal-dialog")
+        div(class="modal-content").modal-header-blue
+            div.modal-header
+                button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                |Nueva Orden de servicio
+            div.modal-body.ordenNew(style="display:block")
+                form(action='/nuevaOrden' method='post' form-name="Orden")
+                    div.form-group
+                        div.fechas
+                            input(id="startdate" name="startdate" type="date").col-xs-6.col-sm-3.col-sm-offset-7
+                            input(id="exit-time" name="exit-time" type="time").col-xs-6.col-sm-2
+                    div.form-group
+                        if (user)
+                            input(type="text" name="serie" placeholder="serie" autocomplete="off" value=next.Dato).norden.col-sm-2.margin-tbm
+                            input(type="number" name="numero" placeholder="Orden" autocomplete="off" value=next.Consec).margin-left.norden.col-sm-2.margin-tbm
+                            input(type="text" name="usuario" placeholder='Usuario' autocomplete="off" value=user.Usuario).norden.col-sm-3.margin-tbm.margin-left-l
+                            select(name="tecnico" id="tecnico" ).margin-left.norden.col-sm-3.margin-tbm.Asignado
+                                option(value="tecnico") Tecnico
+                                each i in empleado
+                                    option(value=i.USUARIO)=i.USUARIO
+                    div.form-group.clearboth
+                       
+                        input(type='text' name='cliente' placeholder='Cliente' autocomplete="off").margin-tbm.col-sm-3.clients
+                        
+                        button(type="button" class="btn btn-default" ).margin-tbm.padding-lrm.padding-tbs.col-xs-1.margin-left-s.ion-android-add-contact.icono
+                            i
+                        input(type='text' name='Telefono' placeholder='Tel. 441 277 2763' autocomplete="off").margin-tbm.col-sm-4.margin-left
+                    div#clients
+                    div.form-group.clearboth
+                        input(type='text' name='Reportado' placeholder='Reportado' autocomplete="off").margin-tbm.col-sm-6
+                    div.form-group.clearboth
+                        select( name="TipoServicio").margin-tbm.col-sm-5
+                            option(value='') Tipode Servicio
+                            option(value='Cita') Cita
+                            option(value='SOPORTE') SOPORTE
+                            option(value='TAREA') TAREA
+                        
+                        input(type='text' name='Equipo' placeholder='Equipo' autocomplete="off").margin-tbm.col-sm-4.margin-left
+                        button(type="button" class="btn btn-default").margin-tbm.padding-lrm.padding-tbs.col-xs-1.margin-left-s
+                            i.ion-laptop.icono
+
+                    div.form-group.clearboth
+                        label.col-sm-3
+                            input(type="checkbox" name="urgente").margin-rigt-s
+                            | urgente
+                        label.col-sm-3
+                            input(type="checkbox" name="completo") 
+                            | Completada
+                        label.col-sm-3
+                            input(type="checkbox" name="poliza" ) 
+                            | Poliza
+                               
+                    div#detalleRespues
+
+                    textarea(type='text' name='comentario' placeholder='comentarios' autocomplete='off').form-control.comentarios
+
+                    div.modal-footer.form-group
+                        button(type="button" class="btn btn-default" data-dismiss="modal") Cerrar
+                        button(type="button" class="btn btn-primary" type-send="ajax" form-target="Orden") Guardar 
+                      
+            div.modal-body.clientNew(style="display:none")
+                div.ion-arrow-left-c.icono-large.goback
+                form(action='/nuevoCliente' method='post' form-name="cliente")
+                    div.form-group 
+                        input(type='text' name='clave' placeholder='Clave Cliente' autocomplete="off"  requi="true").margin-tbs.col-md-3.clave
+                    div.form-group.clearboth
+                        input(type='text' name='clienteNombre' placeholder='Nombre' autocomplete="off" required).margin-tbs.col-md-10
+                    div.form-group.clearboth
+                        input(type='text' name='calle' placeholder='Calle' autocomplete="off" required).margin-tbs.col-md-7
+                        input(type='text' name='interior' placeholder='# Int' autocomplete="off").margin-tbs.col-md-2.margin-left-s
+                        input(type='text' name='exterior' placeholder='# Ext' autocomplete="off").margin-tbs.col-md-2.margin-left-s
+                    div.form-group.clearboth
+                        input(type='text' name='colonia' placeholder='Colonia' autocomplete="off").margin-tbs.col-md-7
+                    div.form-group.clearboth
+                        input(type='text' name='telefono' placeholder='Telefono' autocomplete="off").margin-tbs.col-md-7
+                    div.form-group.clearboth
+                        input(type='text' name='correo' placeholder='correo@hotmail.com' autocomplete="off").margin-tbs.col-md-7
+
+                    div.modal-footer.form-group.clearboth
+                        button(type="button" class="btn btn-default" data-dismiss="modal") Cerrar
+                        button(type="button" class="btn btn-primary" type-send="ajax" form-target="cliente") Guardar
+
+
+            div.modal-body.equipoNew(style="display:none")
+                div.ion-arrow-left-c.icono-large.goback
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div.form-group
+                        input(type='text' name='serie' placeholder='Numero de serie' autocomplete="off").margin-tbs.col-md-3
+                        input(type='text' name='marca' placeholder='Marca' autocomplete="off").margin-tbs.col-md-3
+                        input(type='text' name='Modelo' placeholder='Modelo' autocomplete="off").margin-tbs.col-md-3
+
+                    div.form-group.clearboth
+                        input(type='text' name='clienteNombre' placeholder='Nombre' autocomplete="off").margin-tbs.col-md-10
+
+                    div.form-group.clearboth
+                        video(id="video" width="200" height="200" autoplay)
+                        button(id="snap" type="button" class="btn") Take photo
+                        canvas(id="canvas" width="200" height="200")
+                        button(id="ima" type="button" class="btn btn-default").imagenn Add
+                    div.form-group.clearboth
+                        div.EquipoImagen
+                   
+
+                    div.modal-footer.form-group.clearboth
+                        button(type="button" class="btn btn-default" data-dismiss="modal") Cerrar
+                        button(type="button" class="btn btn-primary" type-send="ajax" form-target="Equipo") Guardar

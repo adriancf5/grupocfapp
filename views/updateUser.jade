@@ -1,0 +1,59 @@
+﻿div.row.pann(style="margin-top:0px; margin-left:15px; margin-right:15px;")
+    form(action="/updateUser" method="post" style="padding:10px;" form-name="upUser")
+        div.form-group.clearboth
+            div#placeholder USUARIO
+            input(type="text" name="username"  value=user.Usuario placeholder="Usuario" autocomplete="off" style="margin-top:0px;").user.col-sm-6.col-xs-12.margin-tbm          
+        div.form-group.clearboth
+            div#placeholder NOMBRE
+            input(type="text" name="nombre"  value=user.Nombre placeholder="Nombre" autocomplete="off" style="margin-top:0px;").col-sm-6.col-xs-12.margin-tbm
+       
+        div.form-group.clearboth
+            div#placeholder CONTRASEÑA
+            input(type="password" name="password1" placeholder="contraseña" autocomplete="off" style="margin-top:0px;").col-sm-6.col-xs-12.margin-tbm
+        div.form-group.clearboth
+            div#placeholder VUELVA A ESCRIBIR LA CONTRASEÑA
+            input(type="password" name="password" placeholder="contraseña" autocomplete="off" style="margin-top:0px;").col-sm-6.col-xs-12.margin-tbm
+        div.form-group.clearboth
+            div#placeholder CORREO
+            input(type="email" name="correo" value=user.email placeholder="correo" style="margin-top:0px;").col-sm-6.col-xs-12.martin-tbm
+        div.form-group.clearboth(style="display:none")
+            
+            input(type="email" name="correo2" placeholder="correo 2").col-sm-6.col-xs-12.margin-tbm
+        div.form-group.clearboth(style="display:none")
+            input(type="tel" name="telefono" placeholder="telefono1").col-sm-6.col-xs-12.margin-tbm
+        div.form-group.clearboth(style="display:none")
+            input(type="tel" name="telefono1" placeholder="telefono2").col-sm-6.col-xs-12.margin-tbm
+        div.form-group.clearboth(style="display:none")
+            input(type="text" name="Direccion" placeholder="direccion").col-sm-6.col-xs-12.margin-tbm
+            input(type="numer" name="CP" placeholder="codigo postal").col-sm-4.col-xs-12.margin-tbm
+        div.form-group.clearboth
+            div#placeholder SERIES
+            input(type="text" name="Equipos" value=user.Equipos placeholder="Serie Equipos" style="margin-top:0px;").col-sm-3.col-xs-6.margin-tbm
+            input(type="text" name="Servicios" value=user.Servicios placeholder="Serie servicios" style="margin-top:0px;").col-sm-3.col-xs-6.margin-tbm
+        div.form-group.clearboth
+            div#placeholder VENDEDOR ASOCIADO
+            input(type="text" name="Vendedor" value=user.Vend placeholder="Vendedor asociado" style="margin-top:0px;").col-sm-5.col-xs-10.margin-tbm
+        div.form-group.clearboth
+            div#placeholder ESTACION ASOCIADO
+            input(type="text" name="Estacion" value=user.estacion placeholder="Estacion de trabajo" style="margin-top:0px;").col-sm-5.col-xs-10.margin-tbm
+        div.form-group.clearboth
+            label.col-sm-6
+                if (user.admon === 1)
+                    input(type="checkbox" name="admon" checked="on").margin-right-s
+                else
+                    input(type="checkbox" name="admon" checked="off").margin-right-s 
+                | Administrador
+            label.col-sm-6(style="display:none")
+                input(type="checkbox" name="cliente").margin-right-s
+                | Cliente
+
+        div.form-group.clearboth
+            div#placeholder Observaciones
+            textarea(type="text" name="observacion" value=user.Observ placeholder="observaciones" autocomplete="off" style="margin-top:0px;").form-control.col-sm-6.col-xs-12
+                                   
+
+        div.modal-footer.formgroup.clearboth
+            a(href="#" type="btn" type-send="ajaxUpdate" form-target="upUser" class="btn btn-primary") Guardar
+    
+
+           

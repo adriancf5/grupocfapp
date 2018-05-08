@@ -1,0 +1,19 @@
+﻿div.row
+    div.panel.panel-default.margin-left-m.margin-rigth-m
+        div.panel-heading
+            div.padding-lrm Usuarios
+        div.panel-body
+            table(data-toggle="table" data-url="/tables/uClientes" data-show-refresh="true" data-show-toggle="true"
+                    data-show-columns="true" data-search="true" data-select-item-name="Ordenes" data-pagination="true"
+                    data-sort-name="Usuario" data-sort-order="desc" )
+
+                thead
+                    tr
+                        th(data-field="state" data-checkbox="true" modified="true" id="id")
+                        th(data-field="Usuario" data-sortable="true" id="id" data-show-columns="false" ) Usuario
+                        th(data-field="Nombre" data-sortable="true") NOMBRE
+                        th(data-field="email" data-sortable="true") CORREO
+                        th(data-field="password" data-sortable="true") CONTRASEÑA
+                        th(data-field="telefono" data-sortable="true") TELEFONO
+
+      

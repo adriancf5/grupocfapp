@@ -1,0 +1,17 @@
+div.row
+    div.panel.panel-default.margin-left-m.margin-rigth-m
+        div.panel-heading
+            div.padding-lrm Soporte Sistemas
+        div.panel-body
+            table(data-toggle="table" data-url="/tables/Sistemas" data-show-refresh="true" data-show-toggle="true"
+                    data-show-columns="true" data-search="true" data-select-item-name="Ordenes" data-pagination="true"
+                    data-sort-name="Orden" data-sort-order="desc" )
+
+                thead
+                    tr
+                        th(data-field="id" data-checkbox="true" modified="true" id="id")
+                        th(data-field="Cliente" data-sortable="true" id="id") Cliente
+                        th(data-field="Reporto" data-sortable="true") Reporto
+                        th(data-field="Atendio" data-sortable="true") Atendio
+                        th(data-field="TipoServicio" data-sortable="true") Servicio
+                        th(data-field="Sdescripcion" data-sortable="true") Descripcion

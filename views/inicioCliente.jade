@@ -1,0 +1,225 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="")
+    meta(name="author" content="Grupo CF")
+    link(rel="icon" href="../../favicon.ico")
+    title 
+    link(rel='stylesheet', href='/stylesheets/ioicon.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel="stylesheet", href="/stylesheets/clint.css")
+    link(rel="stylesheet", href="/stylesheets/timeline.css")
+  body(style="background-color:rgb(242, 242, 242);")
+    div.blog-masthead
+        div.container
+            nav.blog-nav
+                a.blog-nav-item(href="#" style="padding-top:3px; padding-bottom:3px;")
+                    img(src="/images/logo.png" style="width:34px;").logo 
+
+                a.blog-nav-item.active(href="#") Bienvenido
+                a.blog-nav-item(href="/salir" style="padding-bottom:8px; padding-top: 10px; position:relative; float:right; font-size:1.2em; color:white;").salir Salir
+                a.blog-nav-item(href="#" style="padding-bottom:8px; padding-top: 10px; position:relative; float:right; font-size:1.3em; color:white;") GRUPO CF    
+                
+                //a.estatus(hre="#")=orden.Estatus
+                
+
+    div.container(style="background-color:rgb(242, 242, 242);")
+        //div.blog-header
+            h1.blog-title Bienvenido
+            h1.blog-title(style="position:relative; float:right")GRUPO CF
+
+        div.row
+            div.col-sm-12.blog-main
+                //div(class="page-header")
+                    //h1(id="timeline") Timeline
+
+                ul(class="timeline")
+                    li.col-sm-8.col-xs-12
+                        //div(class="timeline-badge")
+                            i(class="glyphicon glyphicon-check")
+                        div(class="timeline-panel")
+                            div(class="timeline-heading")
+                                div(class="titulo").col-sm-7.col-xs-12 Orden de Servicio: 
+                                    =orden.Serie + '-' + orden.Orden
+                                div.estatus.col-sm-5.col-xs-12=orden.Estatus
+                                //p
+                                    small(class="text-muted")
+                                        i(class="glyphicon glyphicon-time") 11 hours ago via Twitter
+            
+                            div(class="timeline-body")
+                                div.row
+                                    div.col-sm-12
+                                        div.pann
+                                            div.col-sm-8
+                                                section.contact
+                                                    | CONTACTO     
+                                                div 
+                                                    //=orden.Cliente
+                                                div
+                                                    strong 
+                                                        =orden.ClienteNom
+                                                div
+                                                    | Tel.  
+                                                    =orden.ClienteTel
+                                                div  
+                                                    =orden.Contacto
+                                                div
+                                                    =orden.ClienteDir
+
+                                            div.col-sm-4
+                                                section.DatosEquipo 
+                                                    |DATOS DEL EQUIPO 
+                                                div
+                                                    strong 
+                                                        =orden.TipoEquipo
+                                                if (orden.Registro != "")
+                                                    div 
+                                                        |N° de Serie: 
+                                                        =orden.Registro
+                                                if (orden.Marca != "")
+                                                    div 
+                                                        |Marca: 
+                                                        =orden.Marca
+                                                if (orden.Modelo != "")
+                                                    div Modelo: 
+                                                        =orden.Modelo
+                                                if (orden.Password != "") 
+                                                    div Contraseña: 
+                                                        =orden.Password
+                                                if (orden.ObservEquipo != "")
+                                                    div Descripcion del Equipo:
+                                                        strong 
+                                                            =orden.ObservEquipo
+
+                                            
+                                            div.col-sm-8
+                                                section.TipoServicio
+                                                    | TIPO DE SERVICIO
+                                                if (orden.Garantia === 1)
+                                                    div Garantia 
+                                                if (orden.Poliza === 1)
+                                                    div Poliza
+                                                if (orden.Preventivo === 1)
+                                                    div Preventivo
+                                                if (orden.Correctivo === 1)
+                                                    div Correctivo
+                                                if (orden.ServOtro != "")
+                                                    div=orden.ServOtro
+                                                if (orden.Hardware === 1)
+                                                    div Hardware
+                                                if (orden.Software === 1)
+                                                    div Software
+                                                if (orden.MaOperacion === 1 )
+                                                    div Mala Operacion
+                                                if (orden.Pro_Observ != "")
+                                                    div Descripcion del problema: 
+                                                        strong
+                                                            =orden.Pro_Observ
+
+                                            div.col-sm-4
+                                                if (orden.TipoEquipo != 'Servicio')
+                                                    section.Accesorios
+                                                        | ACCESORIOS
+                                                if (orden.Teclado === 1) 
+                                                    div.ion-checkmark Teclado
+                                                if (orden.CPU === 1)
+                                                    div.ion-checkmark CPU
+                                                if (orden.Discos === 1)
+                                                    div.ion-checkmark Discos
+                                                if (orden.Funda === 1)
+                                                    div.ion-checkmark Funda
+                                                if (orden.FuentePoder === 1) 
+                                                    div.ion-checkmark  FUENTE DE PODER  S/N: 
+                                                        span=orden.FuenteSn 
+                
+                                                if (orden.USB === 1)
+                                                    div.ion-checkmark USB
+                                                if (orden.Monitor === 1)
+                                                    div.ion-checkmark Monitor: 
+                                                    div=orden.Monitorsn
+                                                if (orden.Negro === '1'  )
+                                                    div Cartuchos:
+                                                        if (orden.Negro === '1') 
+                                                            div.ion-checkmark Negro
+                                                        if (orden.Magenta === '1')
+                                                            div.ion-checkmark Magenta
+                                                        if (orden.Amarillo === '1')   
+                                                            div.ion-checkmark Amarillo
+                                                        if (orden.Azul === '1')
+                                                            div.ion-checkmark Azul
+                                                        if (orden.ModCartucho != '')
+                                                            div=orden.ModCartucho
+                     
+                                                if (orden.AccOtro != "" && orden.AccOtro != 0 )
+                                                    div=orden.AccOtro
+
+                                            div
+                                                section.Adicionales
+                                                    | DETALLE DE ORDEN
+                                                if (orden.VendNom  != "")
+                                                    div Recibido Por: 
+                                                        =' ' + orden.VendNom
+                                            div.col-sm-12
+                                                section.Adicionales Imagenes
+                                                section(id="images" name=orden.Serie value=orden.Orden)
+
+                                            div.col-sm-12
+                                                div(id="errorDisplay")
+                                                   
+
+                    if (pendiente)
+                        li(class="timeline-inverted").col-sm-4
+                            //div(class="timeline-badge warning")
+                                i(class="glyphicon glyphicon-credit-card")
+                            div(class="timeline-panel right")
+                                div(class="timeline-heading")
+                                    h4(style="text-align:center") Historial
+                                    a(href='ordenFile/?serie='+orden.Serie + '&numero=' +orden.Orden + '&cliente=' +orden.Cliente + '' TARGET="_BLANK" style="font-size:1.5em!Important;position:absolute;right:10px;top:5px;").ion-clipboard
+                                div(class="timeline-body")
+                                    div 
+                                        h4 Ingreso
+                                    div.observ
+                                        =pendiente.PENDIENTE
+                                    div.observ
+                                        =pendiente.OBSERV
+                                    div.time(style="margin-bottom:10px; border-bottom:inset 1px;")
+                                        div.hora(style="margin-left:10px;")
+                                            =pendiente.HoraR
+                                        div.fecha(style="padding-right:10px!important;") 
+                                            =pendiente.FechaR
+
+                                    each i in respuesta
+                                        if (i.Respuesta != "Reparacion")
+                                            div.col-sm-12.coment
+                                       
+                                                div
+                                                    h5 
+                                                        =i.Respuesta
+                                                    if (i.Respuesta === "asignar")
+                                                        div(style="padding-left:0px!important;")
+                                                            =orden.Asignado
+                        
+                                                div.observ
+                                                    =i.Observ
+                                                div.time(style="margin-bottom:10px;border-bottom:inset 1px;")
+                                                    div.hora(style="margin-left:10px;")
+                                                        =i.HoraT
+                                                    div.fecha 
+                                                        =i.FechaT
+
+
+    div(id="Imagen" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true").no-print
+            div(class="modal-dialog")
+                div(class="modal-content")
+                    //button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                        //h5 Imagenes
+                    div.modal-body.slideImage(style="padding:15px!important")
+ 
+
+    script(src='/javascripts/jquery-2.1.0.js' type="text/javascript")
+    script(src='/javascripts/bootstrap.min.js' type="text/javascript")
+    script(src='/timeline/js/timeline.js' type="text/javascript")
+                        

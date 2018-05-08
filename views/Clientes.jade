@@ -1,0 +1,19 @@
+﻿
+div.row
+    div.panel.panel-default.margin-left-m.margin-rigth-m
+        div.panel-heading
+            div.padding-lrm Clientes
+        div.panel-body
+            table(data-toggle="table" data-url="/tables/Clientes" data-show-refresh="true" data-show-toggle="true"
+                    data-show-columns="true" data-search="true" data-select-item-name="Ordenes" data-pagination="true"
+                    data-sort-name="Orden" data-sort-order="desc" )
+
+                thead
+                    tr
+                        th(data-field="state" data-checkbox="true" modified="true" id="id")
+                        th(data-field="CLIENTE" data-sortable="true" id="id") CLAVE
+                        th(data-field="NOMBRE" data-sortable="true") NOMBRE
+                        th(data-field="TELEFONO" data-sortable="true") TELEFONO
+                        th(data-field="RFC" data-sortable="true") RFC
+                        th(data-field="CORREO" data-sortable="true") CORREO
+                        

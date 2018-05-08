@@ -1,0 +1,20 @@
+
+div.row
+    div.panel.panel-default.margin-left-m.margin-rigth-m
+        div.panel-heading
+            div.padding-lrm Toners (Remanufactura)
+        div.panel-body
+            table(data-toggle="table" data-url="/tables/toners" data-show-refresh="true" data-show-toggle="true"
+                    data-show-columns="true" data-search="true" data-select-item-name="Toners" data-pagination="true"
+                    data-sort-name="id" data-sort-order="desc" data-images="true")
+
+                thead
+                    tr
+                        th(data-field="state" data-checkbox="true" modified="true")
+                        th(data-field="id" data-sortable="true"  checked="false") orden
+                        th(data-field="Suc" data-sortable="true" width="50px") Sucursal
+                        th(data-field="Modelo" data-sortable="true") Modelo
+                        th(data-field="Proceso" data-sortable="true") Proceso
+                        th(data-field="Cliente" data-sortable="true") Cliente
+                        th(data-field="Estatus" data-sortable="true") Estatus
+                        th(data-field="Descripcion" data-sorteable="true") Descripcion

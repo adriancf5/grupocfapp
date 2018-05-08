@@ -1,0 +1,15 @@
+﻿div#my-slide
+    - var n = 0;
+    - var m = 1;
+    if (!imagen[0])
+        img(data-lazy-src='/images/imagen404.jpg' )
+        
+    for i in imagen
+        if (i.serieWeb)
+            img(data-lazy-src=i.Imagen )
+        if (!i.serieWeb)
+            - n = n + 1;
+            - var serie = i.Serie.trim();
+            - var orden = i.OrdenNo.trim() 
+            img(data-lazy-src=drive+serie+'-'+orden+'-'+n+'.jpg' )
+
