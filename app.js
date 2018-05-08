@@ -1,22 +1,21 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var passport = require('passport');
-var flash = require('connect-flash');
-var checkip = require('check-ip-address');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+const checkip = require('check-ip-address');
 
-var port = process.argv[2] || 443;
-var insecurePort = process.argv[3] || 1337;
+const port = process.argv[2] || 443;
+const insecurePort = process.argv[3] || 1337;
 var insecureServer;
 
-var fs = require("fs");
-var http = require("http");
-var https = require('https')
-var certsPath = path.join(__dirname, 'certs');
+const fs = require("fs");
+const https = require('https');
+const certsPath = path.join(__dirname, 'certs');
 var options = {
     key : fs.readFileSync(path.join(certsPath, 'grupocfapp.key')),
     ca :  fs.readFileSync(path.join(certsPath, 'gd_bundle-g2-g1.crt')),
@@ -25,8 +24,8 @@ var options = {
 , rejectUnauthorized: false
 }
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const index = require('./routes/index');
+const users = require('./routes/users');
 
 var app = express();
 
