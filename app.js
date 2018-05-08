@@ -17,7 +17,6 @@ var fs = require("fs");
 var http = require("http");
 var https = require('https')
 var certsPath = path.join(__dirname, 'certs');
-//var co = fs.readFileSync('./Files/letsencryptauthorityx1.pem')
 var options = {
     key : fs.readFileSync(path.join(certsPath, 'grupocfapp.key')),
     ca :  fs.readFileSync(path.join(certsPath, 'gd_bundle-g2-g1.crt')),
@@ -36,10 +35,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 require('./config/passport')(passport); // pass passport for configuration
-
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,10 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routes ======================================================================
 require('./config/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-//require('./config/pdfTemplate.js')(app, passport);
 require('./config/POST.js')(app, passport);
-//require('./config/tediousCon.js')
-
 
 // Take error Messsages
 app.use(function(err,req, res, next){
