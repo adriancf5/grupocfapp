@@ -1,0 +1,244 @@
+﻿div(id="OrdenesN" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true").no-print
+    div(class="modal-dialog")
+        div(class="modal-content")
+            div.modal-header
+                button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                div.form-group
+                  strong(style="margin-left:10px;") Nueva Orden de servicio
+                div.form-group
+                    div.progress(style="margin-bottom:5px; margin-top:10px;width:90%;height:25px;margin-left:10px;")
+                        div.progress-bar.progress-bar-info(role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%; height:25px;")
+                        div.ion-person-add(style="font-size:1.8em;margin-top:3px;left:10%;position:absolute;color:white;")
+                        div.ion-monitor(style="font-size:1.8em;margin-top:3px;left:27%;position:absolute;color:white;")
+                        div.ion-images(style="font-size:1.8em;margin-top:3px;left:44%;position:absolute;color:white;")
+                        div.ion-medkit(style="font-size:1.8em;margin-top:3px;left:61%;position:absolute;color:white;")
+                        div.ion-thumbsup(style="font-size:1.8em;margin-top:3px;left:80%;position:absolute;color:white;")
+                //div.form-group(style="margin-top:10px!important")
+                    div(class="btn-group btn-group-justified" role="group" aria-label="...")
+                        div(class="btn-group width13" role="group" )
+                            button(type="button" class="btn btn-default" style="width:100%;" ) Cliente
+                        div(class="btn-group width13" role="group")
+                            button(type="button" class="btn btn-default" style="width:100%;" ) Equipo
+                        div(class="btn-group width13" role="group")
+                            button(type="button" class="btn btn-default" style="width:100%;" ) Servicio
+            div.modal-body.head-modal
+
+
+            div.modal-body.clientNew(style="display:block" id="clienteN")
+                //div.ion-arrow-left-c.icono-large.goback
+                form(action='/nuevoCliente' method='post' form-name="cliente")
+                    div.form-group
+                        input(type='text' name='clave' placeholder='Clave Cliente' autocomplete="off"  requi="true").margin-tbs.col-md-3.clave.clients
+                        //button(type="button" class="btn btn-default" style="margin-top:3px;").padding-lrm.col-xs-2.col-md-1.margin-left-s.ion-android-add-contact.icono
+                        div#clients.col-sm-8.col-xs-11
+
+                    div.form-group.clearboth
+                        input(type='text' name='clienteNombre' placeholder='Nombre' autocomplete="off" required).margin-tbs.col-xs-11.col-md-10
+                    div.form-group.clearboth
+                        input(type='text' name='calle' placeholder='Calle' autocomplete="off" required).margin-tbs.col-md-7.col-xs-11
+                        //input(type='text' name='interior' placeholder='# Int' autocomplete="off").margin-tbs.col-xs-6.col-md-2
+                        //input(type='text' name='exterior' placeholder='# Ext' autocomplete="off").margin-tbs.col-xs-5.col-md-2
+                    div.form-group.clearboth
+                        input(type='text' name='colonia' placeholder='Colonia' autocomplete="off").margin-tbs.col-md-7.col-xs-11
+                    div.form-group.clearboth
+                        input(type='text' name='poblacion' placeholder='Poblacion' autocomplete='off').margin-tbs.col-md-7.col-xs-11
+                    div.form-group.clearboth
+                        input(type='text' name='telefono' placeholder='Telefono' autocomplete="off").margin-tbs.col-md-7.col-xs-11
+                    div.form-group.clearboth
+                        input(type='text' name='correo' placeholder='correo' autocomplete="off").margin-tbs.col-md-7.col-xs-11
+
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous disabled")
+                                    a(href="#")
+                                        span(aria-hidden="true") &larr; Atras
+                                li( class="next")
+                                    a(href="#" next-slide="equipoN" this-slide="clienteN" type-send='ajax' form-target="cliente"  next-style="width:40%" ) Siguiente
+                                        span(aria-hidden="true") &rarr;
+
+
+
+            div.modal-body.equipoNew(id="equipoN" style="display:none")
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div.form-group.clearboth
+                        input(type="text" name="reporto" placeholder="Reportado Por" autocomplete="off").margin-tbs.col-xs-12.col-sm-10
+                    div.form-group.clearboth
+                        select( name="TipoEquipo" class="tipoEquipo").margin-tbm.col-sm-5.col-xs-7
+                            option(value='default') TIPO DE  EQUIPO
+                            for i in equipos
+                                option(value=i.EquipoT.trim())=i.Descrip
+                            //option(value='PC') PC
+                            //option(value='Laptop') LAPTOP
+                            //option(value='ImpresoraL') IMPRESORA LASER
+                            //option(value='ImpresoraY') IMPRESORA INYECCION
+                            //option(value='ImpresoraM') IMPRESORA MATRIZ
+                            //option(value='MultifuncionalL') MULTIFUNCIONAL LASER
+                            //option(value='MultifuncionalY') MULTIFUNCIONAL INYECCION
+                            //option(value='Tablet') TABLET
+                            //option(value='Router') ROUTER
+                            //option(value='Modem') MODEM
+                            //option(value='DVR') DVR
+                            //option(value='otro') OTRO
+
+                        button(type="button" class="btn btn-default" style="margin-left:3px;height:32px!important;" class="next" ).margin-tbm.padding-lrm.col-xs-2.col-sm-1
+                            a(href="#" next-slide="adicionalN"  this-slide="equipoN").ion-ios7-filing.icono
+                                        span(aria-hidden="true")
+
+                    div.form-group.clearboth
+                        input(type='text' name='serie' placeholder='Numero de serie Equipo' autocomplete="off").margin-tbs.col-md-5.col-xs-10
+                    div.form-group.clearboth
+                        input(type='text' name='marca' placeholder='Marca' autocomplete="off" style="margin-right:5px!important;").margin-tbs.col-md-5.col-xs-10
+                    div.form-group
+                        input(type='text' name='Modelo' placeholder='Modelo' autocomplete="off").margin-tbs.col-md-4.col-xs-10
+                    div.form-group.clearboth
+                        label.col-sm-4
+                            input(type="checkbox" name="fuentePoder" style="margin-top:0px!important")
+                            |  Fuente Poder
+                        input(type='text' name='nsFuentePoder' placeholder='Numero de serie Fuente de Poder' autocomplete="off").margin-tbs.col-md-6.col-xs-6
+                    div.form-group.clearboth
+                        textarea(type='text' name='comentario' placeholder='Observaciones' autocomplete='off' style="margin-top:3px!important").form-control.comentarios
+
+
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous")
+                                    a(href="#" next-slide="clienteN" this-slide="equipoN" prev-style="width:20%")
+                                        span(aria-hidden="true" prev-style="width:20%") &larr; Atras
+
+                                li( class="next")
+                                    a(href="#" next-slide="camaraN" this-slide="equipoN"  next-style="width:60%") Siguiente
+                                        span(aria-hidden="true") &rarr;
+
+
+            div.modal-body(id="adicionalN" style="display:none")
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div(id="cartuchos" class="hide")
+                        div.form-group
+                            h4 Cartuchos
+                        div.form-group.clearboth
+                            label
+                                input(type="checkbox" name="negro" style="margin-top:0px!important")
+                                div(style="position:relative;float:right;width:18px; height:18px; background-color:black; margin-left:7px; margin-top:6px; border-radius:3px;")
+                            label(style="margin-left:15px;")
+                                input(type="checkbox" name="azul" style="margin-top:0px!important")
+                                div(style="position:relative;float:right;width:18px; height:18px; background-color:blue; margin-left:7px; margin-top:6px; border-radius:3px;")
+                            label(style="margin-left:15px;")
+                                input(type="checkbox" name="amarillo" style="margin-top:0px!important")
+                                div(style="position:relative;float:right;width:18px; height:18px; background-color:yellow; margin-left:7px; margin-top:6px; border-radius:3px;")
+                            label(style="margin-left:15px;")
+                                input(type="checkbox" name="magenta" style="margin-top:0px!important")
+                                div(style="position:relative;float:right;width:18px; height:18px; background-color:magenta; margin-left:7px; margin-top:6px; border-radius:3px;")
+                        div.form-group.clearboth
+                            input(type="text" name="otroColor" placeholder="Otro Cartucho" autocomplete="off").margin-tbs.col-md-6.col-xs-
+                    div(id="adicionales" class="hide")
+
+                        div.form-group.clearboth
+                            h4 Accesorios Adicionales
+                        div.form-group.clearboth
+                            label()
+                                input(type="checkbox" name="CPU" style="margin-top:0px!important; margin-right:5px;")
+                                | CPU
+                            label(style="margin-left:20px;")
+                                input(type="checkbox" name="Teclado" style="margin-top:0px!important; margin-right:5px;")
+                                | Teclado
+                        div.form-group-clearboth(style="margin-bottom:10px,")
+                            label.col-sm-3(style="padding-left:0px!important; padding-right:0px!important;")
+                                input(type="checkbox" name="Monitor" style="margin-top:0px!important; margin-right:5px;")
+                                | Monitor
+                            input(type="text"  name="MonitorSn" placeholder="Monitor serie" autocomplete="off").margin-tbs.col-md-4.col-xs-6
+
+                        div.form-group.clearboth
+                            input(type="text" name="Accotro" placeholder="Otro Accesorio" autocomplete="off" style="margin-bottom:10px;").margin-tab.col-md-6.col-xs-6
+
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous")
+                                    a(href="#" next-slide="equipoN" this-slide="adicionalN" )
+                                        span(aria-hidden="true" ) &larr; Atras
+                                li( class="next")
+                                    a(href="#" next-slide="camaraN" this-slide="adicionalN" next-style="width:60%") Siguiente
+                                        span(aria-hidden="true") &rarr;
+
+
+
+
+            div.modal-body(id="camaraN" style="display:none")
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div.form-group.col-sm-7.col-xs-12
+                        div(id="webcam")
+                        div.ion-camera#takeSnapshot
+                        //button(type="button" class="btn btn-primary btn-large" id="takeSnapshot") tomar foto
+                    div.form-group.col-sm-5.col-xs-12
+                        //div(class="span4")
+                            button(type="button" class="btn btn-primary btn-large" id="takeSnapshot") tomar foto
+                        div(id="imagesN")
+
+
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous")
+                                    a(href="#" next-slide="equipoN" this-slide="camaraN" prev-style="width:40%")
+                                        span(aria-hidden="true"  prev-style="width:40%") &larr; Atras
+                                li( class="next")
+                                    a(href="#" next-slide="servicioN" this-slide="camaraN" id="fotosCamara"  next-style="width:80%" ) Siguiente
+                                        span(aria-hidden="true") &rarr;
+
+
+
+            div.modal-body(id="servicioN" style="display:none")
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div.form-group
+                        select( name="TipoServicio").margin-tbm.col-sm-5.col-xs-7
+                            option(value='deafult') Tipo de Servicio
+                            option(value='Preventivo') Preventivo
+                            option(value='Correctivo') Correctivo
+                            option(value='Garantia') Garantia
+                            option(valur='Poliza') Poliza
+                            option(value='otro') OTRO
+                          input(type='text' name='otroServicio' placeholder='Otro servicio' autocomplete="off" class="hide").margin-tbs.col-md-6.col-xs-6
+
+
+                    div.form-group.clearboth
+                        select( name="origenProblema").margin-tbm.col-sm-5.col-xs-7
+                            option(value='deafult') Origen del Problema
+                            option(value='Hardware') Hardware
+                            option(value='Software') Software
+                            option(value='otro') OTRO
+                        input(type="text" name="otroProblema" placeholder="Otro Problema" autocomplete="off" class="hide")
+
+                    div.form-group.clearboth
+                        textarea(type='text' name='descProblema' placeholder='Descripcion del Problema y/o servicio' autocomplete='off' style="margin-top:3px!important").form-control.comentarios
+                    div.form-group.clearboth
+                        label.col-sm-6.col-xs-12s
+                            input(type="checkbox" name="apertura" style="margin-top:0px!important")
+                            |  Autorizo apertura si es necesario
+                        label.col-sm-6
+                            input(type="checkbox" name="aReparacion" style="margin-top:0px!important")
+                            |  Autorizo reparacion
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous" )
+                                    a(href="#" next-slide="camaraN" this-slide="servicioN" prev-style="width:60%")
+                                        span(aria-hidden="true" prev-style="width:60%") &larr; Atras
+                                li( class="next")
+                                    a(href="#" next-slide="finalN" this-slide="servicioN" type-send="ajaxO" form-target="Equipo" form-target2="cliente"  next-style="width:100%" ) Guardar
+                                        span(aria-hidden="true")
+
+            div.modal-body(id="finalN" style="display:none")
+                form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
+                    div.form-group#finalResult
+
+                    div.modal-footer.form-group.clearboth
+                        nav
+                            ul(class="pager")
+                                li( class="previous")
+                                    a(href="#" next-slide="servicioN" this-slide="finalN" prev-style="width:80%")
+                                        span(aria-hidden="true") &larr; Atras
+                                li( class="next")
+                                    a(href="#"  data-dismiss="modal"  final="1") Finalizar
+                                        span(aria-hidden="true" ) &rarr;

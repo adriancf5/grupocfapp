@@ -193,7 +193,7 @@ module.exports = function (passport) {
                 if (err) {
                     console.log(err)
                 }
-                console.log(user)
+                //console.log(user)
                 if (user.length > 0) {
                     if (username === 'CLIGEN') {
                         //console.log("CLIGEN")
@@ -231,39 +231,22 @@ module.exports = function (passport) {
 
                         });
                     }
-                //done(err, user);; // --> [{ id: '8F41C105-1D24-E511-80C8-000C2927F443', email: 'bart@hotmail.com' }]
                 var hash = ''
                 if (user.length > 0 && username != 'CLIGEN') {
-                    if (user[0].Password === password) {
-                        // all is well, return successful user
-                        console.log('success')
-                        return done(null, user[0]);
 
+                    var encrypted_length = user[0].Password.length;
+
+                    if (encrypted_length != 60) {
+                        //throw "Not a valid BCrypt hash.";
+                        hash = bcrypt.hashSync(user[0].Password);
                     } else {
-                        var encrypted_length = user[0].Password.length;
-
-                        if (encrypted_length != 60) {
-                            //throw "Not a valid BCrypt hash.";
-                            hash = bcrypt.hashSync(user[0].Password);
-                        } else {
-                            hash = user[0].Password;
-                        }
-
-                                    // if the user is found but the password is wrong
-                        if (!bcrypt.compareSync(password, hash)){
-                            return done(null, false, req.flash('loginMessage', 'Oops! Contraseña incorrecta.'));   
-                        } else{
-                            //if (user[0].activo === 1 ){
-                                return done(null, user[0]);
-                           // } else {
-                           //     return done(null, false, req.flash('loginMessage', 'Su usuario ha sido deshabilitado, avise al admistrador de sistema.'));
-                           // } 
-                        }
-                            //console.log(user[0].password);
-                            // create the loginMessage and save it to session as flashdata
-                            
-                           
-
+                        hash = user[0].Password;
+                    }
+                    // if the user is found but the password is wrong
+                    if (!bcrypt.compareSync(password, hash)){
+                        return done(null, false, req.flash('loginMessage', 'Oops! Contraseña incorrecta.'));   
+                    } else{
+                            return done(null, user[0]);
                     }
                 }
             } else {

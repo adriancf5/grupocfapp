@@ -1,0 +1,17 @@
+div.row
+    div.panel.panel-default.margin-left-m.margin-rigth-m
+        div.panel-heading
+            div.padding-lrm Ordenes de Servicio
+        div.panel-body
+            table(data-toggle="table" data-url="/tables/ordenes" data-show-refresh="true" data-show-toggle="true"
+                    data-show-columns="true" data-search="true" data-select-item-name="Serie" data-pagination="true"
+                    data-sort-name="Orden" data-sort-order="desc" data-images="true")
+
+                thead
+                    tr
+                        th(data-field="state" data-checkbox="true" modified="true")
+                        th(data-field="id" data-sortable="true"  checked="false") ID
+                        th(data-field="Serie" data-sortable="true" width="50px") Serie
+                        th(data-field="Orden" data-sortable="true") Numero
+                        th(data-field="TipoEquipo" data-sortable="true") Equipo
+                        th(data-field="estatus" data-sortable="true") Estatus

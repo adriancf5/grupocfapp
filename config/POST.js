@@ -316,9 +316,10 @@ module.exports = function (app, passport) {
                              observ: [TYPES.NVarChar, r.observacion],
                              user: [TYPES.Char,  (req.body.username).trim()]}
 
-                db.query("update usuarios set nombre = @nombre, password = @password, correo = @correo, telefono = @telefono, Equipos = @Equipos, Servicios = @servicios, Vend = @vend,  estacion = @estacion, admon = @admon , Observ = @observ where usuario = @user " ,  valores,  (err, datos)  => {
+                db.query("update usuariosweb set nombre = @nombre, password = @password, email = @correo, telefono = @telefono, Equipos = @Equipos, Servicios = @servicios, Vend = @vend,  estacion = @estacion, admon = @admon , Observ = @observ where usuario = @user " ,  valores,  (err, datos)  => {
                     if (err){
-                        res.render("error", { message: "", error: err })
+                        console.log(err)
+                        //res.render("error", { message: "", error: err })
                     }
                   });
             }

@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title= title
+    meta(name='viewport' content='initial-scale=1', width='device-width')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+block content
+    div.login-form.container
+        div.row.col-xs-12.col-xs-offset-0.col-lg-10.col-lg-offset-1
+            div.row.col-xs-12.col-xs-offset-3.col-sm-offset-4
+              img(src="/images/logo.png").logo
+            //div.eslog GRUPO CF
+            div.col-xs-12
+              if message != ''
+                div(style='text-align:center;').row.alert.alert-danger= message
+            form(action='/loginSistemas' method='post')
+                div.form-group
+                    label Usuario
+                    input(type='text' name='username' placeholder='Usuario' ).form-control
+
+                div.form-group
+                    label Contraseña
+                    input(type='password' name='password' placeholder='contraseña').form-control
+
+                div.form-group
+                    button(type='submit').btn.btn-primary.btn-lg.pull-right Entrar
+                br
+        div.row(style='clear:both')
+          div.col-xs-12(style='text-align:center')
+          br
+          br
+          br
