@@ -22,7 +22,6 @@ const db = friendly.create({ connectionString, connectionConfig, poolConfig });
 
 module.exports = function (app, passport) {
 
-
     app.post('/dePartida', isLoggedIn, function (req, res) {
         var articulo = req.body.articulo;
             var queryString = "select estado from ventas where venta =  @venta ";
@@ -89,9 +88,7 @@ module.exports = function (app, passport) {
         var respuesta = (req.body.respuesta).trim();
         var Estatus = 'Recepcion'
         if (respuesta === 'asignar') {
-
            var asignado = (req.body.Asignado).trim();
-
             Estatus = 'Revision'
         } else if (respuesta === 'diagnostico') {
             Estatus = 'Diagnostico';
@@ -102,6 +99,8 @@ module.exports = function (app, passport) {
         } else if (respuesta === 'entregar') {
             Estatus = 'Entregado'
         } else if (respuesta === 'otra') {
+            Estatus = 'Diagnostico'
+        } else {
             Estatus = 'Diagnostico'
         }
         var user1 = req.user[0].Usuario;
@@ -1161,12 +1160,10 @@ module.exports = function (app, passport) {
     }
 
     app.get('/ordenFile', function (req, res, next) {
-
         creaHTML(req.query.serie, req.query.numero, req.query.cliente, req)
         setTimeout(function () {
             res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
         }, 1000)
-
     });
 
     app.get('/reporteSistemas', function (req, res, next) {
@@ -1190,7 +1187,6 @@ module.exports = function (app, passport) {
     });
     app.get('/delete', function (req, res) {
 
-        //mysql.open(connstring, function (err, conn) {
         var values = {serie:[TYPES.Char, req.query.serie], orden:[TYPES.Int, req.query.numero], cliente:[TYPES.Char, req.query.cliente]}
         db.query("select * from ordenes where serie = @serie and orden = @orden and cliente = @cliente" , values  , (err, orden) => {
             if (err)
@@ -1211,25 +1207,20 @@ module.exports = function (app, passport) {
                     if (err)
                         console.log(err);
                 });
-
                 setTimeout(function () {
                     res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
                 }, 800)
             }
-
         });
-        //});
-
-
     });
 
     app.get('/service/ordenFile', function (req, res, next) {
-
+     
         creaHTML(req.query.serie, req.query.numero, req.query.cliente, req)
         setTimeout(function () {
             res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
-        }, 800)
-
+        }, 1000)
+        
     })
 
 

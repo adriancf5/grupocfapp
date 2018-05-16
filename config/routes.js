@@ -78,46 +78,37 @@ module.exports = function(app, passport) {
         var usuario = req.user[0];
         var tecnicos = [];
         var equipos = [];
-
-        //mysql.open(connstring, function (err, conn) {
-            db.query("select * from tipoEquipo ", (err, equi) => {
+        db.query("select * from tipoEquipo ", (err, equi) => {
+            if (err)
+                console.log(err);
+            var i = 0;
+            while (i < equi.length) {
+                equipos.push(equi[i]);
+                i = i + 1;
+            }
+        });
+        var tecnico = (function () {
+            db.query("select USUARIO from usuarios ", (err, tecni) => {
                 if (err)
                     console.log(err);
                 var i = 0;
-                while (i < equi.length) {
-                    equipos.push(equi[i]);
+                while (i  < tecni.length) {
+                    tecnicos.push(tecni[i]);
                     i = i + 1;
                 }
+                return tecni;
+
             });
-        //});
-        var tecnico = (function () {
-            //db.open(connstring, function (err, conn) {
-
-                db.query("select USUARIO from usuarios ", (err, tecni) => {
-                    if (err)
-                        console.log(err);
-                    var i = 0;
-                    while (i  < tecni.length) {
-                        tecnicos.push(tecni[i]);
-                        i = i + 1;
-                    }
-                    return tecni;
-
-                });
-            //});
         })(tecnicos);
         var user = { Equipo: [TYPES.Char, req.user[0].Equipos]}
         Consulta = "select * FROM CONSEC WHERE DATO = @Equipo " ;
 
         setTimeout(function () {
-            //mysql.open(connstring, function (err, conn) {
-                db.query(Consulta ,user, (err, consec) => {
-                    if (err)
-                        return console.log(err);
-                    //res.render('nuevaOrden', { 'user': usuario , 'next' : consec[0],  'empleado' : tecnicos } );
-                    res.render('equipoNuevo', { 'user': usuario , 'next' : consec[0], 'empleado' : tecnicos, 'equipos': equipos });
-                });
-            //});
+            db.query(Consulta ,user, (err, consec) => {
+                if (err)
+                    return console.log(err);
+                res.render('equipoNuevo', { 'user': usuario , 'next' : consec[0], 'empleado' : tecnicos, 'equipos': equipos });
+            });
         }, 200);
 
 
@@ -186,28 +177,21 @@ module.exports = function(app, passport) {
 
 
     app.get('/respuesta', function (req, res) {
-        //console.log(req);
         var vista = req.query.respuesta;
         var venta = req.query.venta;
-
         if (venta < 1) {
             venta = 0;
         }
         console.log(vista)
         if (vista === 'reparacion') {
-
-            //mysql.open(connstring, function (err, conn) {
-
                 db.query("SELECT PARTVTA.VENTA AS 'VENTA', VENTAS.ESTADO AS 'ESTADO', PARTVTA.ARTICULO AS 'ARTICULO',PARTVTA.ID_SALIDA AS 'ID_SALIDA', PARTVTA.CANTIDAD AS 'CANTIDAD', PARTVTA.PRECIO AS 'PRECIO' ,PARTVTA.OBSERV AS 'OBSERV' " +
                            " , VENTAS.IMPORTE  AS 'IMPORTE', VENTAS.IMPUESTO AS 'IMPUESTO' from PARTVTA INNER JOIN VENTAS ON PARTVTA.VENTA = VENTAS.VENTA WHERE PARTVTA.VENTA = @ven" , {ven :[TYPES.Int, venta]} ,  (err, partidas) => {
                     if (err)
                         console.log(err);
+                    console.log(partidas)
                     res.render(vista, { 'partidas': partidas });
                 });
-
-            //});
         } else if (vista === 'materiales') {
-            //mysql.open(connstring, function (err, conn) {
                 var qString = "SELECT PARTVTA.VENTA AS 'VENTA', VENTAS.ESTADO AS 'ESTADO', PARTVTA.ARTICULO AS 'ARTICULO',PARTVTA.ID_SALIDA AS 'ID_SALIDA', PARTVTA.CANTIDAD AS 'CANTIDAD', PARTVTA.PRECIO AS 'PRECIO' ,PARTVTA.OBSERV AS 'OBSERV' "
                     qString +=    " , VENTAS.IMPORTE  AS 'IMPORTE', VENTAS.IMPUESTO AS 'IMPUESTO' from PARTVTA INNER JOIN VENTAS ON PARTVTA.VENTA = VENTAS.VENTA WHERE PARTVTA.VENTA = @ven "
                 qString += "UNION SELECT ventas.venta as 'VENTA', ventas.ESTADO as 'ESTADO', orderMaterial.articulo as 'ARTICULO', orderMaterial.ID AS 'ID_SALIDA', orderMaterial.cantidad as 'CANTIDAD', orderMaterial.PRECIO AS 'PRECIO', orderMaterial.Descripcion as 'OBSERV' "
@@ -218,7 +202,6 @@ module.exports = function(app, passport) {
                         console.log(err);
                     res.render(vista, { 'partidas': partidas });
                 });
-            //});
 
         } else if (vista === 'reagendar'){
             res.send('')
@@ -332,8 +315,6 @@ module.exports = function(app, passport) {
     });
 
     app.get('/tables/prods', function (req, res) {
-
-
         if (req.user[0].admon === 0) {
             Consulta = "select ARTICULO, DESCRIP, PRECIO1 FROM PRODS";
         } else {
@@ -343,7 +324,6 @@ module.exports = function(app, passport) {
             if (err)
                 console.log(err);
             res.send(prods);
-
         });
     });
 
@@ -371,18 +351,15 @@ module.exports = function(app, passport) {
     })
 
     app.get('/cliente', function (req, res) {
-
         var like = '%' + (req.query.filtro).replace(' ', '%') + '%';
-
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn) {
 
-                db.query("select top 8 Cliente, Nombre, rfc, calle, colonia , telefono, numerointerior, numeroexterior, pobla , localidad, correo  from clients where cliente LIKE @busca OR nombre LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
-                    if (err)
-                        console.log(err);
-                    res.render('cliente', { 'cliente' : cliente });
-                });
-            //});
+            db.query("select top 8 Cliente, Nombre, rfc, calle, colonia , telefono, numerointerior, numeroexterior, pobla , localidad, correo  from clients where cliente LIKE @busca OR nombre LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
+                if (err)
+                    console.log(err);
+                //console.log(cliente)
+                res.render('cliente', { 'cliente' : cliente });
+            });
     });
 
     app.get('/Agenda', function (req, res){
@@ -815,19 +792,16 @@ module.exports = function(app, passport) {
         } else {
             Consulta = "select id, Serie, Orden, Estatus, ClienteNom, TipoEquipo, Registro, Pro_Observ, DATEADD(second, 30, Fecha_ing)  , UsuHora_ing from ordenes where estatus <> @estatus AND fecha_ing = @dates ";
         }
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, valores , (err, orden) => {
-                if (err)
-                    console.log(err);
-                res.render('Pendientes', { 'ordenes' : orden, 'user': req.user[0], imagen : Drive });
-            });
-        //});
+        db.query(Consulta, valores , (err, orden) => {
+            if (err)
+                console.log(err);
+            res.render('Pendientes', { 'ordenes' : orden, 'user': req.user[0], imagen : Drive });
+        });
     };
 
     function orden(req, res, next) {
 
         var value = { id:[TYPES.Int, req.query.clave]}
-
         db.query("select * from ordenes where id =@id ", value, (err, ordens) => {
             if (err) {
                 console.error(err);
@@ -835,7 +809,7 @@ module.exports = function(app, passport) {
             if (ordens[0].ID_pendiente > 0) {
                 var pendiente = {
                     id : [TYPES.Int, ordens[0].ID_pendiente],
-										reporte : [TYPES.Char, 'Reporte']
+					reporte : [TYPES.Char, 'Reporte']
                 }
                 db.query("select ID, PENDIENTE, OBSERV, HoraR, DATEADD(second, 0, FechaR) as  'FechaR' from pendient where id = @id", pendiente, (err, pendient) => {
 

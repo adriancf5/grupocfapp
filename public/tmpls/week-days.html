@@ -1,0 +1,8 @@
+<% _.each(events, function(event){ %>
+<div class=" cal-offset<%= event.start_day %>" style="width:14%;">
+	<div class="cal-row-fluid <%= event.days%>  day-highlight dh-<%= event['class'] %>" data-event-class="<%= event['class'] %>">
+        <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>" data-get="<%= event.dataget %>" value="<%= event.value %>" name="<%= event.name %>" data-event-class="<%= event['class'] %>" class="event-item event-tab"> <%= event.title %></a>
+        
+	</div>
+</div>
+<% }); %>

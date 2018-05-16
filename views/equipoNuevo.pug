@@ -13,14 +13,6 @@
                         div.ion-images(style="font-size:1.8em;margin-top:3px;left:44%;position:absolute;color:white;")
                         div.ion-medkit(style="font-size:1.8em;margin-top:3px;left:61%;position:absolute;color:white;")
                         div.ion-thumbsup(style="font-size:1.8em;margin-top:3px;left:80%;position:absolute;color:white;")
-                //div.form-group(style="margin-top:10px!important")
-                    div(class="btn-group btn-group-justified" role="group" aria-label="...")
-                        div(class="btn-group width13" role="group" )
-                            button(type="button" class="btn btn-default" style="width:100%;" ) Cliente
-                        div(class="btn-group width13" role="group")
-                            button(type="button" class="btn btn-default" style="width:100%;" ) Equipo
-                        div(class="btn-group width13" role="group")
-                            button(type="button" class="btn btn-default" style="width:100%;" ) Servicio
             div.modal-body.head-modal
 
 
@@ -56,8 +48,6 @@
                                 li( class="next")
                                     a(href="#" next-slide="equipoN" this-slide="clienteN" type-send='ajax' form-target="cliente"  next-style="width:40%" ) Siguiente
                                         span(aria-hidden="true") &rarr;
-
-
 
             div.modal-body.equipoNew(id="equipoN" style="display:none")
                 form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
@@ -199,7 +189,7 @@
                             option(value='Garantia') Garantia
                             option(valur='Poliza') Poliza
                             option(value='otro') OTRO
-                          input(type='text' name='otroServicio' placeholder='Otro servicio' autocomplete="off" class="hide").margin-tbs.col-md-6.col-xs-6
+                        input(type='text' name='otroServicio' placeholder='Otro servicio' autocomplete="off" class="hide").margin-tbs.col-md-6.col-xs-6
 
 
                     div.form-group.clearboth
@@ -228,7 +218,7 @@
                                 li( class="next")
                                     a(href="#" next-slide="finalN" this-slide="servicioN" type-send="ajaxO" form-target="Equipo" form-target2="cliente"  next-style="width:100%" ) Guardar
                                         span(aria-hidden="true")
-
+                                        
             div.modal-body(id="finalN" style="display:none")
                 form(action='/nuevoEquipo' method='post' form-name="Equipo" enctype="multipart/form-data")
                     div.form-group#finalResult
