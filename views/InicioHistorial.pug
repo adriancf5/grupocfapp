@@ -1,0 +1,69 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="")
+    meta(name="author" content="Grupo CF")
+    link(rel="icon" href="../../favicon.ico")
+    title
+    link(rel='stylesheet', href='/stylesheets/ioicon.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel="stylesheet", href="/stylesheets/clint.css")
+    link(rel="stylesheet", href="/stylesheets/timeline.css")
+    link(rel='stylesheet', href='/stylesheets/bootstrap-table.css')
+body(style="background-color:rgb(242, 242, 242);")
+    div.blog-masthead
+        div.container
+            nav.blog-nav
+                a.blog-nav-item(href="#" style="padding-top:3px; padding-bottom:3px;")
+                    img(src="/images/logo.png" style="width:34px;").logo
+
+                a.blog-nav-item.active(href="#") Bienvenido
+
+                a.blog-nav-item(href="#")=user.Nombre
+                a.blog-nav-item(href="/SalirH" style="padding-bottom:8px; padding-top: 10px; position:relative; float:right; font-size:1.2em; color:white;").salir Salir
+                a.blog-nav-item(href="#" style="padding-bottom:8px; padding-top: 10px; position:relative; float:right; font-size:1.3em; color:white;") GRUPO CF
+
+
+                //a.estatus(hre="#")=orden.Estatus
+
+
+    div.container(style="background-color:rgb(242, 242, 242);")
+        //div.blog-header
+            h1.blog-title Bienvenido
+        div.row(style="box-shadow:0 1px 6px rgba(0, 0, 0, 0.175)")
+            div.panel.panel-default.margin-left-m.margin-rigth(style="margin-bottom:0px;")
+                div.panel-body
+                    div.padding-lrm(style="position:absolute; top:50px; font-size: 1.3em;") Ordenes de Servicio
+                    table(data-toggle="table" data-url="/tables/ordenes" data-show-refresh="true" data-show-toggle="true"
+                            data-show-columns="true" data-search="true" data-select-item-name="Ordenes" data-pagination="true"
+                            data-sort-name="id" data-sort-order="desc" data-images="true" data-client="true")
+
+                        thead
+                            tr
+                                th(data-field="state" data-checkbox="true" modified="true")
+                                //th(data-field="id" data-sortable="true"  checked="false") ID
+                                th(data-field="Serie" data-sortable="true" width="50px") Serie
+                                th(data-field="Orden" data-sortable="true") Numero
+                                th(data-field="TipoEquipo" data-sortable="true") Equipo
+                                th(data-field="problem" data-sorteable="true") Problema
+                                th(data-field="estatus" data-sortable="true") Estatus
+
+
+     div(id="Orden" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true").no-print
+            div(class="modal-dialog")
+                div(class="modal-content")
+                    //button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                        //h5 Imagenes
+                    div.modal-body.orden-detaill(style="padding:15px!important")
+
+
+    script(src='/javascripts/jquery-2.1.0.js' type="text/javascript")
+    script(src='/javascripts/bootstrap.min.js' type="text/javascript")
+    script(src='/timeline/js/timeline.js' type="text/javascript")
+    script(src='/javascripts/bootstrap-table-client.js' type="text/javascript")
+    script(src='/javascripts/jquery.devrama.slider.js' type="text/javascript")
+    script(src='/javascripts/id.js' type="text/javascript")
+    

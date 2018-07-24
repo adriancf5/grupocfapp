@@ -1,0 +1,160 @@
+﻿div.row
+    div.col-sm-8
+        div.pann
+            div.col-sm-6
+                section.contact
+                    | CONTACTO
+                div
+                    =orden.Cliente
+                div
+                    strong
+                        =orden.ClienteNom
+                div
+                    =orden.ClienteTel
+                div
+                    =orden.Contacto
+                div
+                    =orden.ClienteDir
+
+            div.col-sm-6
+                section.DatosEquipo
+                    |DATOS DEL EQUIPO
+                    a(href='ordenFile/?serie='+orden.Serie + '&numero=' +orden.Orden + '&cliente=' +orden.Cliente + '' TARGET="_BLANK" style="font-size:1.5em!Important;position:absolute;right:10px;top:5px;").ion-clipboard
+                div
+                    strong
+                        =orden.TipoEquipo
+                if (orden.Registro != "")
+                div
+                    |N° de Serie:
+                    =orden.Registro
+                if (orden.Marca != "")
+                    div
+                        |Marca:
+                        =orden.Marca
+                if (orden.Modelo != "")
+                    div Modelo:
+                        =orden.Modelo
+                if (orden.Password != "")
+                    div Contraseña:
+                        =orden.Password
+                if (orden.ObservEquipo != "")
+                    div Descripcion del Equipo:
+                        strong
+                            =orden.ObservEquipo
+
+            div.col-sm-6
+                section.Accesorios
+                    | ACCESORIOS
+                if (orden.Teclado === 1)
+                    div.ion-checkmark Teclado
+                if (orden.CPU === 1)
+                    div.ion-checkmark CPU
+                if (orden.Discos === 1)
+                    div.ion-checkmark Discos
+                if (orden.Funda === 1)
+                    div.ion-checkmark Funda
+                if (orden.FuentePoder === 1)
+                    div.ion-checkmark  FUENTE DE PODER  S/N:
+                    span=orden.FuenteSn
+
+                if (orden.USB === 1)
+                    div.ion-checkmark USB
+                if (orden.Monitor === 1)
+                    div.ion-checkmark Monitor:
+                    div=orden.Monitorsn
+                if (orden.Negro === '1'  )
+                    div Cartuchos:
+                        if (orden.Negro === '1')
+                            div.ion-checkmark Negro
+                        if (orden.Magenta === '1')
+                            div.ion-checkmark Magenta
+                        if (orden.Amarillo === '1')
+                            div.ion-checkmark Amarillo
+                        if (orden.Azul === '1')
+                            div.ion-checkmark Azul
+                        if (orden.ModCartucho != '')
+                            div=orden.ModCartucho
+
+                if (orden.AccOtro != "" && orden.AccOtro != 0 )
+                    div=orden.AccOtro
+            div.col-sm-6
+                section.TipoServicio
+                    | TIPO DE SERVICIO
+                if (orden.Garantia === 1)
+                    div Garantia
+                if (orden.Poliza === 1)
+                    div Poliza
+                if (orden.Preventivo === 1)
+                    div Preventivo
+                if (orden.Correctivo === 1)
+                    div Correctivo
+                if (orden.ServOtro != "")
+                    div=orden.ServOtro
+                if (orden.Hardware === 1)
+                    div Hardware
+                if (orden.Software === 1)
+                    div Software
+                if (orden.MaOperacion === 1 )
+                    div Mala Operacion
+                if (orden.Pro_Observ != "")
+                    div Descripcion del problema:
+                        strong
+                            =orden.Pro_Observ
+
+            div
+                section.Adicionales
+                    | DETALLE DE ORDEN
+                if (orden.VendNom  != "")
+                    div Recibido Por:
+                        =' ' + orden.VendNom
+                if (orden.VENTA > 0)
+                    span.padding-lrm Numero de venta :
+                    span.noVenta
+                        strong
+                            =orden.VENTA
+                if (orden.Prioridad != "")
+
+                    div Prioridad:
+                        =orden.Prioridad
+
+            div
+                section.Adicionales
+                    |Imagenes
+
+    div.Servicio.col-sm-4
+        if (pendiente)
+            div.pann
+                section.LineaTiempo
+                    | HISTORIAL DEL SERVICIO
+                    //a(href="#" data-get="/Seguimi" value=orden.id class=orden.Estatus name=orden.Serie+'-'+orden.Orden).pull-right.ion-flag.icono
+                div.col-sm-12.coment
+                    div.tRespuesta Ingreso
+                    div.observ
+                        =pendiente.PENDIENTE
+                    div.observ
+                        =pendiente.OBSERV
+                    div.time(style="margin-bottom:10px; border-bottom:inset 1px;")
+                        div.hora(style="margin-left:10px;")
+                            =pendiente.HoraR
+                        div.fecha(style="padding-right:10px!important;")
+                            =pendiente.FechaR
+
+
+                each i in respuesta
+                    if (i.Respuesta != "Reparacion")
+                        div.col-sm-12.coment
+
+                            div
+                                h5
+                                    =i.Respuesta
+                                if (i.Respuesta === "asignar")
+                                    div(style="padding-left:0px!important;")
+                                        =orden.Asignado
+
+                            div.observ
+                                =i.Observ
+                            div.time(style="margin-bottom:10px;border-bottom:inset 1px;")
+                                div.hora(style="margin-left:10px;")
+                                    =i.HoraT
+                                div.fecha
+                                    =i.FechaT

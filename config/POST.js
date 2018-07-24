@@ -1,12 +1,7 @@
-
-//var mysql = require('msnodesql');
 var dbconfig = require('./config');
-//var connstring = dbconfig.SQL_CONN;
-//var connstring = dbconfig.localDB;
 var Drive = dbconfig.DriveN;
 var Limage = dbconfig.images;
 var htmlFile = dbconfig.htmlFile;
-//var PDFDocument = require('pdfkit');
 var fs = require('fs');
 var bcrypt = require('bcrypt-nodejs');
 var fileHtml = require('./ordenHTMLN.js')
@@ -27,19 +22,14 @@ const db = friendly.create({ connectionString, connectionConfig, poolConfig });
 
 module.exports = function (app, passport) {
 
-
     app.post('/dePartida', isLoggedIn, function (req, res) {
-        //console.log(req.body)
         var articulo = req.body.articulo;
-        //console.log(articulo)
-        //mysql.open(connstring, function (err, conn) {
             var queryString = "select estado from ventas where venta =  @venta ";
             var values ={ venta:  [TYPES.Int,  req.body.ventas]};
             db.query(queryString , values,  (err, datos) => {
                 if (err)
                     console.log(err);
                 if (datos[0].estado === 'PE') {
-                    //mysql.open(connstring, function (err, conn) {
                     var values = {salida:[TYPES.Int, req.body.valor],venta:[TYPES.Int ,req.body.ventas], art:[TYPES.Char, articulo]};
                     db.query("delete from partvta where id_salida = @salida and venta = @venta and articulo = @art" , values, (err, datos) => {
                         if (err)
@@ -47,26 +37,20 @@ module.exports = function (app, passport) {
                             updateVenta(req.body.ventas);
                             res.end('')
                     });
-                    //});
-                    //mysql.open(connstring, function (err, conn) {
                     var values = {salida:[TYPES.Int, req.body.valor],venta:[TYPES.Int ,req.body.ventas], art:[TYPES.Char, articulo]};
                     db.query("delete from orderMaterial where id = @salida and venta = @venta and articulo = @art " , values, (err, datos) => {
                         if (err)
                             console.log(err);
                     });
-                    //});
                 } else {
                     res.end('')
                 }
             });
-        //});
     });
 
     app.post('/soporteSistemas', isLoggedIn, function (req, res){
         console.log(req.body)
-
         if (cliente != '' && descrip != ''){
-          //mysql.open(connstring, function (err, conn) {
             var values = {cliente  :[TYPES.Char, req.body.cliente],
                           nombre : [TYPES.NVarChar, req.body.nombre],
                           usuario: [TYPES.Char, req.user[0].Usuario],
@@ -95,20 +79,16 @@ module.exports = function (app, passport) {
                   res.redirect('/Sistema');
                 }
             })
-          //});
         } else {
             res.redirect('/Sistema');
         }
     });
 
     app.post('/OrdenRes', isLoggedIn, function (req, res) {
-        console.log(req.body);
         var respuesta = (req.body.respuesta).trim();
         var Estatus = 'Recepcion'
         if (respuesta === 'asignar') {
-
            var asignado = (req.body.Asignado).trim();
-
             Estatus = 'Revision'
         } else if (respuesta === 'diagnostico') {
             Estatus = 'Diagnostico';
@@ -119,6 +99,8 @@ module.exports = function (app, passport) {
         } else if (respuesta === 'entregar') {
             Estatus = 'Entregado'
         } else if (respuesta === 'otra') {
+            Estatus = 'Diagnostico'
+        } else {
             Estatus = 'Diagnostico'
         }
         var user1 = req.user[0].Usuario;
@@ -140,8 +122,6 @@ module.exports = function (app, passport) {
         if (req.body.startdate1 != '') { var fechaFinal = req.body.startdate1; } else { var fechaFinal = fechaHoy }
         if (req.body.exittime1 != '') {var horaFinal = (req.body.exittime1); } else {  var horaFinal = horaHoy}
 
-
-        //mysql.open(connstring, function (err, conn) {
 
         db.query("SELECT Consec from consec where dato = @dato", {dato: [TYPES.Char, 'respuesta']} ,(err, consec) => {
             if (err) {
@@ -286,20 +266,16 @@ module.exports = function (app, passport) {
                 }
             }
         });
-        //});
 
     });
 
     function changFecha(id, fecha, hora){
         //var valores = [fecha, hora, id ]
         var valores ={fecha:[TYPES.Char, fecha], hora:[TYPES.Char, hora], id:[TYPES.Int, id]}
-        //mysql.open(connstring, function (err, conn) {
         db.query("UPDATE ordenes set fecha_ing = @fecha and UsuHora_ing = @hora where id = @id", valores, (err, datos) => {
             if (err)
                 res.render("error", { message: "", error: err })
             });
-        //});
-
     }
 
     // process the signup form
@@ -310,9 +286,7 @@ module.exports = function (app, passport) {
     }));
     app.post('/updateUser', function (req, res) {
         console.log(req.body)
-        //console.log('ok')
         var r = req.body;
-        //mysql.open(connstring, function (err, conn) {
         db.query("Select * from usuariosWeb where usuario = @user ",  {user:[TYPES.Char, (req.body.username).trim()]}, (err, datos) => {
             if (err){
                 res.render("error", { message: "", error: err })
@@ -341,14 +315,14 @@ module.exports = function (app, passport) {
                              observ: [TYPES.NVarChar, r.observacion],
                              user: [TYPES.Char,  (req.body.username).trim()]}
 
-                db.query("update usuarios set nombre = @nombre, password = @password, correo = @correo, telefono = @telefono, Equipos = @Equipos, Servicios = @servicios, Vend = @vend,  estacion = @estacion, admon = @admon , Observ = @observ where usuario = @user " ,  valores,  (err, datos)  => {
+                db.query("update usuariosweb set nombre = @nombre, password = @password, email = @correo, telefono = @telefono, Equipos = @Equipos, Servicios = @servicios, Vend = @vend,  estacion = @estacion, admon = @admon , Observ = @observ where usuario = @user " ,  valores,  (err, datos)  => {
                     if (err){
-                        res.render("error", { message: "", error: err })
+                        console.log(err)
+                        //res.render("error", { message: "", error: err })
                     }
                   });
             }
         });
-        //});
         res.end()
     });
 
@@ -410,9 +384,6 @@ module.exports = function (app, passport) {
                 });
             }
         });
-
-        //})
-
     });
 
     app.post('/nuevoEquipo', function (req, res) {
@@ -436,7 +407,6 @@ module.exports = function (app, passport) {
         var cpu = 0, teclado = 0, mouse = 0, monitor = 0, monitorsn = 0, otroColor = '';
         var prev = 0, correctivo = 0, otro = 0, recepcion = 1, diagnostico = 0, reparacion = 0, terminado = 0, estatus = 'Recepcion', asignado = ''
         var completo = 0, garantia = 0, poliza = 0;
-        console.log('test')
         if (q.TipoEquipo === "Servicio") {
             serie = req.user[0].Servicios;
             if (q.completada === 'on') {
@@ -445,7 +415,6 @@ module.exports = function (app, passport) {
             if (q.asignado != 'default') {
                 asignado = q.asignado;
             }
-
         } else {
 
             serie = req.user[0].Equipos, numeroSerie = q.serie, modelo = q.Modelo, marca = q.marca, serieFuente = q.nsFuentePoder, obserEquipo = q.comentario, oProblema = q.origenProblema;
@@ -569,7 +538,6 @@ module.exports = function (app, passport) {
                 partidas.push([descrip, articulo, precio, cantidad]);
             }
         }
-        //mysql.open(connstring, function (err, conn) {
 
             var queryString = "INSERT INTO Ordenes (Orden, Serie, Vend, VendNom ,Cliente, ClienteNom, ClienteTel, contacto, ClienteDir, TipoEquipo, Registro, Marca, Modelo, Password,  " //14
             queryString += " ObservEquipo, Discos, Funda, FuentePoder, FuenteSn, USB, Garantia, Poliza, Preventivo, Correctivo, ServOtro, Hardware, Softwere, MaOperacion,"   //15
@@ -577,7 +545,6 @@ module.exports = function (app, passport) {
             queryString += " Fecha_ing, Estacion, Usuario, UsuHora_ing, Estatus, Recepcion, Diagnostico, Reparacion, " //8
             queryString += " Terminado, Entregado, VentaSerie, VentaReferen, AutApertura, AutRepara, ID_pendiente, Asignado,  Venta , ModCartucho) "
             queryString += " VALUES(@orden ,@serie ,@vend ,@vNombre ,@cliente ,@cNombre ,@tel ,@reporto ,@dir ,@tEquipo ,@nSerie ,@marca ,@modelo ,@password ,@observ ,@cero , @cero, @fuente ,@sFuente ,@cero ,@garantia ,@poliza ,@prev ,@correctivo  ,@oServicio ,@hardware ,@software ,@cero ,@oProblema ,@problema , @cpu ,@teclado ,@mouse ,@monitor ,@monitorsn ,@negro ,@magenta ,@azul ,@amarillo ,@cero ,@cero ,@cero ,@cero , @fecha ,@estacion ,@usuario ,@hora ,@estatus ,@recepcion ,@diagnostico ,@reparacion ,@terminado , @entregado ,@ventaSerie ,@ventaReferen ,@authA , @authR ,@cero ,@asignado , @venta , @otroColor) "
-            //console.log(valores);
             db.query(queryString, valores,  (err, consec) => {
                 if (err) {
                     console.log(err)
@@ -609,10 +576,8 @@ module.exports = function (app, passport) {
 
                 }
             });
-        //});
     }
     function insertUserWeb(cliente, nombre, telefono){
-        //mysql.open(connstring, function (err, conn) {
             var queryString = "select usuario from usuariosWeb where usuario =@client and cliente = @entero "
             db.query(queryString , {client: [TYPES.Char, cliente], entero:[TYPES.SmallInt, 1]}, (err, datos) => {
                 if (err)
@@ -646,7 +611,6 @@ module.exports = function (app, passport) {
                     })
                 }
             });
-        //});
     }
     function newPassword(){
         var leter = ['a', 'b', 'c', 'd', 'f', 'g' , 'h' , 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v']
@@ -707,14 +671,12 @@ module.exports = function (app, passport) {
 
     });
     function addImagen(values){
-        //mysql.open(connstring, function (err, conn) {
             var queryString = "INSERT INTO ordenImagen (OrdenNo, Serie, Usufecha, UsuHora, Imagen, serieWeb )"
             queryString += " values (@orden, @serie , @fecha ,@hora ,@url ,@imagen )"
             db.query(queryString , values,  (err, datos) => {
                 if (err)
                     console.log(err);
             });
-        //});
     }
 
     function insertPendiente(valores, asignado) {
@@ -724,7 +686,6 @@ module.exports = function (app, passport) {
         var pendiente = "Orden de servicio: " + valores[1] + "-" + valores[0];
         var siguiente = [];
 
-        //mysql.open(connstring, function (err, conn) {
         db.query("select Consec from consec where Dato = @pen ", {pen:[TYPES.NVarChar, 'pendiente']},  (err, datos) => {
             if (err)
                 res.render("error", { message: "", error: err })
@@ -734,7 +695,6 @@ module.exports = function (app, passport) {
             }
 
         });
-        //});
         function  add(id) {
             var id = parseInt(id.Consec) + 1
             var pendient = {
@@ -750,7 +710,6 @@ module.exports = function (app, passport) {
                 para: [TYPES.NVarChar, 'SUP'],
                 user: [TYPES.NVarChar, valores[3]]
               }
-            //mysql.open(connstring,  (err, conn) => {
                 var queryString = "INSERT INTO pendient ( Id, PENDIENTE, OBSERV, Fecha, Hora, FechaR, HoraR, IDContacto, "
                 queryString += " Articulo, TIPO, ESTADO, F_ini, Para, Usuario,   UsuFecha, UsuHora, idpoliza) "
                 queryString += " VALUES( @ide, @pendiente, @observ, @fecha , @hora , @fecha , @hora, @cero, @cadena, @rev, @estado ,@fecha , @para, @user, @fecha, @hora , @cero ) "
@@ -775,7 +734,6 @@ module.exports = function (app, passport) {
                         }
                     }
                 });
-            //});
         };
     }
 
@@ -1161,33 +1119,29 @@ module.exports = function (app, passport) {
         console.log('test')
         var imagen = [];
         var user = []
-        //mysql.open(connstring, function (err, conn) {
-            db.query("select serieWeb from OrdenImagen where OrdenNo = @orden and Serie =@serie" ,{orden:[TYPES.Int, orden], serie: [TYPES.Char, serie]} , (err, img) => {
-                if (err)
-                    console.log(err);
-                var i = 0;
-                while (i < img.length) {
-                    imagen.push(img[i]);
-                    i = i + 1;
-                }
-            });
-            db.query("select Password, Cliente from usuariosWeb where usuario = @cliente and cliente = @uno" ,{cliente:[TYPES.Char, cliente], uno:[TYPES.Int, 1]}, (err, us) => {
-                if (err)
-                    console.log(err);
-                var i = 0;
-                while (i < us.length) {
-                    user.push(us[i]);
-                    i = i + 1;
-                }
-            });
-        //});
-        //mysql.open(connstring, function (err, conn) {
+        db.query("select serieWeb from OrdenImagen where OrdenNo = @orden and Serie =@serie" ,{orden:[TYPES.Int, orden], serie: [TYPES.Char, serie]} , (err, img) => {
+            if (err)
+                console.log(err);
+            var i = 0;
+            while (i < img.length) {
+                imagen.push(img[i]);
+                i = i + 1;
+            }
+        });
+        db.query("select Password, Cliente from usuariosWeb where usuario = @cliente and cliente = @uno" ,{cliente:[TYPES.Char, cliente], uno:[TYPES.Int, 1]}, (err, us) => {
+            if (err)
+                console.log(err);
+            var i = 0;
+            while (i < us.length) {
+                user.push(us[i]);
+                i = i + 1;
+            }
+        });
         db.query("select * from ordenes where serie = @serie and Orden =@orden ", { orden:[TYPES.Int, orden], serie:[TYPES.Char, serie]},(err, Orden) => {
             if (err)
                 console.log(err);
                 //console.log(Orden);
             if (Orden.length > 0) {
-                //mysql.open(connstring, function (err, conn) {
                 var queryString = "select ARTICULO, CANTIDAD, OBSERV, ROUND(SUM(PRECIO * (1 + IMPUESTO/100)),2) AS 'PRECIO'  from partvta where venta = @venta GROUP BY ARTICULO, CANTIDAD, OBSERV, PRECIO "
                 queryString += " UNION SELECT ARTICULO, cantidad, descripcion as 'OBSERV', ROUND(SUM(PRECIO * (1.16)),2) AS 'PRECIO' FROM orderMaterial where venta = @venta GROUP BY ARTICULO,  CANTIDAD, DESCRIPCION, PRECIO"
                 db.query(queryString , {venta:[TYPES.Int, Orden[0].VENTA  ]}, (err, partvta) => {
@@ -1199,22 +1153,17 @@ module.exports = function (app, passport) {
                         } else {
                             fileHtml.HTML(Orden[0], partvta, imagen, user)
                         }
-
                     }, 400);
                 });
-                //});
             }
         });
-        //});
     }
 
     app.get('/ordenFile', function (req, res, next) {
-
         creaHTML(req.query.serie, req.query.numero, req.query.cliente, req)
         setTimeout(function () {
             res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
         }, 1000)
-
     });
 
     app.get('/reporteSistemas', function (req, res, next) {
@@ -1226,22 +1175,18 @@ module.exports = function (app, passport) {
       }
       var hoy = newDate(fecha);
       var user = req.user[0];
-      //mysql.open(connstring, function (err, conn) {
         db.query("select * from soportesistemas where Atendio = @vend AND fechatrabajo = @fecha " , {vend: [TYPES.Char, vend], fecha:[TYPES.Char, hoy]}, (err, servicios) => {
             if (err)
               console.log(err);
             res.render('reportesis', {s:servicios, u: user, f : fecha});
           });
-      //});
         //reporteHTML(req.query.vend, req)
         //setTimeout(function () {
         //    res.redirect('/reporte/sis-' + req.query.vend + '.html')
         //}, 800)
-
     });
     app.get('/delete', function (req, res) {
 
-        //mysql.open(connstring, function (err, conn) {
         var values = {serie:[TYPES.Char, req.query.serie], orden:[TYPES.Int, req.query.numero], cliente:[TYPES.Char, req.query.cliente]}
         db.query("select * from ordenes where serie = @serie and orden = @orden and cliente = @cliente" , values  , (err, orden) => {
             if (err)
@@ -1262,25 +1207,20 @@ module.exports = function (app, passport) {
                     if (err)
                         console.log(err);
                 });
-
                 setTimeout(function () {
                     res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
                 }, 800)
             }
-
         });
-        //});
-
-
     });
 
     app.get('/service/ordenFile', function (req, res, next) {
-
+     
         creaHTML(req.query.serie, req.query.numero, req.query.cliente, req)
         setTimeout(function () {
             res.redirect('/Orden/' + req.query.serie + '-' + req.query.numero + '.html')
-        }, 800)
-
+        }, 1000)
+        
     })
 
 

@@ -1,0 +1,41 @@
+div(id='img-'+ide class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true").no-print.slideImg
+  div(class="modal-dialog")
+    div(class="modal-content")
+      //button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+      //h5 Imagenes
+      div.modal-body.slideImage(style="padding:15px!important")
+        div(id='myCarousel' class='carousel slide' data-ride='carousel')
+          ol(class='carousel-indicators')
+            - var n = 0;
+            - var clas = 'active'
+            if (!imagen[0])
+              li(data-target='#myCarousel' data-slide-to='0' class='active')
+            for i in imagen
+              li(data-target='#myCarousel' data-slide-to=n class=clas)
+              - clas = '';
+              - n = n + 1;
+
+          div(role='listbox').carousel-inner
+            - var n = 0;
+            - var clas = 'item-active'
+            if (!imagen[0])
+              div(class=clas)
+                  img(src='/images/imagen404.jpg' style="width:100px" )
+            for i in imagen
+              if (i.serieWeb)
+                div(class=clas)
+                  img(src=i.Imagen )
+              if (!i.serieWeb)
+                - n = n + 1;
+                - var serie = i.serie.trim();
+                - var orden = i.orden.trim();
+                div(class=cla)
+                  img(src=drive+serie+'-'+orden+'-'+n+'.jpg'  style="width:100px")
+              - var clas = 'item'
+
+          a(class='left carousel-control' href='#myCarousel' role='button' data-slide='prev')
+            span(class='ion-chevron-left' aria-hidden='true')
+            span(class='sr-only')
+          a(class='right carousel-control' href='#myCarousel' role='button' data-slide='next')
+            span(class='ion-chevron-right' aria-hidden='true')
+            span(class='sr-only')

@@ -1,12 +1,9 @@
 // app/routes.js
 
-//var mysql = require('msnodesql');
 var dbconfig = require('./config');
 
-//var connstring = dbconfig.SQL_CONN;
 var connstring = dbconfig.localDB;
 var Drive = dbconfig.DriveN;
-//var upload_middleware = require('../node_modules/upload-middleware/index');
 var bcrypt = require('bcrypt-nodejs');
 var sendE = require('./sendEmail.js');
 var logs = require('./logs.js')
@@ -81,46 +78,37 @@ module.exports = function(app, passport) {
         var usuario = req.user[0];
         var tecnicos = [];
         var equipos = [];
-
-        //mysql.open(connstring, function (err, conn) {
-            db.query("select * from tipoEquipo ", (err, equi) => {
+        db.query("select * from tipoEquipo ", (err, equi) => {
+            if (err)
+                console.log(err);
+            var i = 0;
+            while (i < equi.length) {
+                equipos.push(equi[i]);
+                i = i + 1;
+            }
+        });
+        var tecnico = (function () {
+            db.query("select USUARIO from usuarios ", (err, tecni) => {
                 if (err)
                     console.log(err);
                 var i = 0;
-                while (i < equi.length) {
-                    equipos.push(equi[i]);
+                while (i  < tecni.length) {
+                    tecnicos.push(tecni[i]);
                     i = i + 1;
                 }
+                return tecni;
+
             });
-        //});
-        var tecnico = (function () {
-            //db.open(connstring, function (err, conn) {
-
-                db.query("select USUARIO from usuarios ", (err, tecni) => {
-                    if (err)
-                        console.log(err);
-                    var i = 0;
-                    while (i  < tecni.length) {
-                        tecnicos.push(tecni[i]);
-                        i = i + 1;
-                    }
-                    return tecni;
-
-                });
-            //});
         })(tecnicos);
         var user = { Equipo: [TYPES.Char, req.user[0].Equipos]}
         Consulta = "select * FROM CONSEC WHERE DATO = @Equipo " ;
 
         setTimeout(function () {
-            //mysql.open(connstring, function (err, conn) {
-                db.query(Consulta ,user, (err, consec) => {
-                    if (err)
-                        return console.log(err);
-                    //res.render('nuevaOrden', { 'user': usuario , 'next' : consec[0],  'empleado' : tecnicos } );
-                    res.render('equipoNuevo', { 'user': usuario , 'next' : consec[0], 'empleado' : tecnicos, 'equipos': equipos });
-                });
-            //});
+            db.query(Consulta ,user, (err, consec) => {
+                if (err)
+                    return console.log(err);
+                res.render('equipoNuevo', { 'user': usuario , 'next' : consec[0], 'empleado' : tecnicos, 'equipos': equipos });
+            });
         }, 200);
 
 
@@ -189,28 +177,21 @@ module.exports = function(app, passport) {
 
 
     app.get('/respuesta', function (req, res) {
-        //console.log(req);
         var vista = req.query.respuesta;
         var venta = req.query.venta;
-
         if (venta < 1) {
             venta = 0;
         }
         console.log(vista)
         if (vista === 'reparacion') {
-
-            //mysql.open(connstring, function (err, conn) {
-
                 db.query("SELECT PARTVTA.VENTA AS 'VENTA', VENTAS.ESTADO AS 'ESTADO', PARTVTA.ARTICULO AS 'ARTICULO',PARTVTA.ID_SALIDA AS 'ID_SALIDA', PARTVTA.CANTIDAD AS 'CANTIDAD', PARTVTA.PRECIO AS 'PRECIO' ,PARTVTA.OBSERV AS 'OBSERV' " +
                            " , VENTAS.IMPORTE  AS 'IMPORTE', VENTAS.IMPUESTO AS 'IMPUESTO' from PARTVTA INNER JOIN VENTAS ON PARTVTA.VENTA = VENTAS.VENTA WHERE PARTVTA.VENTA = @ven" , {ven :[TYPES.Int, venta]} ,  (err, partidas) => {
                     if (err)
                         console.log(err);
+                    console.log(partidas)
                     res.render(vista, { 'partidas': partidas });
                 });
-
-            //});
         } else if (vista === 'materiales') {
-            //mysql.open(connstring, function (err, conn) {
                 var qString = "SELECT PARTVTA.VENTA AS 'VENTA', VENTAS.ESTADO AS 'ESTADO', PARTVTA.ARTICULO AS 'ARTICULO',PARTVTA.ID_SALIDA AS 'ID_SALIDA', PARTVTA.CANTIDAD AS 'CANTIDAD', PARTVTA.PRECIO AS 'PRECIO' ,PARTVTA.OBSERV AS 'OBSERV' "
                     qString +=    " , VENTAS.IMPORTE  AS 'IMPORTE', VENTAS.IMPUESTO AS 'IMPUESTO' from PARTVTA INNER JOIN VENTAS ON PARTVTA.VENTA = VENTAS.VENTA WHERE PARTVTA.VENTA = @ven "
                 qString += "UNION SELECT ventas.venta as 'VENTA', ventas.ESTADO as 'ESTADO', orderMaterial.articulo as 'ARTICULO', orderMaterial.ID AS 'ID_SALIDA', orderMaterial.cantidad as 'CANTIDAD', orderMaterial.PRECIO AS 'PRECIO', orderMaterial.Descripcion as 'OBSERV' "
@@ -221,7 +202,6 @@ module.exports = function(app, passport) {
                         console.log(err);
                     res.render(vista, { 'partidas': partidas });
                 });
-            //});
 
         } else if (vista === 'reagendar'){
             res.send('')
@@ -290,139 +270,106 @@ module.exports = function(app, passport) {
     });
 
     app.get('/tables/Sistemas', function (req, res) {
-
         Consulta = "select id, Cliente , clienteNr as 'Reporto', usuario as 'Atendio', soporte as 'TipoServicio',  comentarios as 'Sdescripcion' FROM php order by id desc ";
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta,  (err, sistemas) =>  {
-                if (err)
-                    return done(err);
-                // console.log(orden);
-                res.send(sistemas);
-            });
-        //});
+        db.query(Consulta,  (err, sistemas) =>  {
+            if (err)
+                return done(err);
+            // console.log(orden);
+            res.send(sistemas);
+        });
     });
 
 
     app.get('/tables/usuarios', function (req, res) {
 
         Consulta = "select Usuario, email, telefono, Nombre FROM usuariosWeb where cliente <> 1 AND Usuario <> 'CLIGEN' ";
-
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, (err, cliente) => {
-                if (err)
-                    return done(err);
-                // console.log(orden);
-                res.send(cliente);
-            });
-        //});
-
+        db.query(Consulta, (err, cliente) => {
+            if (err)
+                return done(err);
+            // console.log(orden);
+            res.send(cliente);
+        });
     });
 
     app.get('/tables/uClientes', function (req, res) {
 
         Consulta = "select Usuario, password, email, telefono, Nombre FROM usuariosWeb where cliente = @cliente";
 
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, {cliente:[TYPES.SmallInt, 1]}, (err, cliente) => {
-                if (err)
-                    return done(err);
-                // console.log(orden);
-                res.send(cliente);
-            });
-        //});
-
+        db.query(Consulta, {cliente:[TYPES.SmallInt, 1]}, (err, cliente) => {
+            if (err)
+                return done(err);
+            // console.log(orden);
+            res.send(cliente);
+        });
     });
 
     app.get('/tables/Articulos', function (req, res) {
 
         Consulta = "select ARTICULO, DESCRIP AS 'DESCRIPCION', ROUND(EXISTENCIA,2) AS 'EXISTENCIA' , ROUND(COSTO_U, 2) AS 'COSTOU',  ROUND( SUM(PRECIO1 * 1.16), 2) AS 'PRECIO1', ROUND( SUM(PRECIO2 * 1.16), 2) AS 'PRECIO2' " +
                     " , ROUND(SUM(PRECIO3 * 1.16), 2) AS 'PRECIO3' FROM PRODS WHERE BLOQUEADO = @bloqueado GROUP BY PRODS.ARTICULO, PRODS.DESCRIP, PRODS.EXISTENCIA, PRODS.COSTO_U, PRODS.PRECIO1, PRODS.PRECIO2, PRODS.PRECIO3 ";
-
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, {bloqueado: [TYPES.SmallInt, 0]} , (err, Articulo) => {
-                if (err)
-                    console.log(err);
-                // console.log(orden);
-                res.send(Articulo);
-            });
-        //});
-
+        db.query(Consulta, {bloqueado: [TYPES.SmallInt, 0]} , (err, Articulo) => {
+            if (err)
+                console.log(err);
+            res.send(Articulo);
+        });
     });
 
     app.get('/tables/prods', function (req, res) {
-
-
         if (req.user[0].admon === 0) {
             Consulta = "select ARTICULO, DESCRIP, PRECIO1 FROM PRODS";
         } else {
             Consulta = "select ARTICULO, DESCRIP, PRECIO1 FROM PRODS";
         }
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, (err, prods) => {
-                if (err)
-                    console.log(err);
-                res.send(prods);
-
-            });
-        //});
-
-
+        db.query(Consulta, (err, prods) => {
+            if (err)
+                console.log(err);
+            res.send(prods);
+        });
     });
 
     app.get('/prods', function (req, res) {
 
         var like = '%' + (req.query.filtro).replace(' ', '%' ) + '%';
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn) {
-
-                db.query("select top 10 ARTICULO, DESCRIP, PRECIO1  from prods where ARTICULO LIKE @busca OR DESCRIP LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, prods) => {
-                    if (err)
-                        console.log(err);
-                    //console.log(empleado)
-                    res.render('prods', { 'prods' : prods });
-                });
-            //});
+            db.query("select top 10 ARTICULO, DESCRIP, PRECIO1  from prods where ARTICULO LIKE @busca OR DESCRIP LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, prods) => {
+                if (err)
+                    console.log(err);
+                res.render('prods', { 'prods' : prods });
+            });
     });
 
     app.get('/users',isLoggedIn,  function (req, res){
         var like = '%' + (req.query.filtro).replace(' ' , '%') + '%';
 
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn){
-                db.query("select top 5 id, Usuario, email, admon, telefono, Servicios, Equipos, Nombre, Vend, estacion from usuariosWeb where usuario  LIKE @busca ", {busca:[TYPES.Char, like]}, function (err, user){
-                    if (err)
-                        console.log(err)
-                    res.send('')
-                    //res.render('users', {'user': user })
-                 })
-            //})
+            db.query("select top 5 id, Usuario, email, admon, telefono, Servicios, Equipos, Nombre, Vend, estacion from usuariosWeb where usuario  LIKE @busca ", {busca:[TYPES.Char, like]}, function (err, user){
+                if (err)
+                    console.log(err)
+                res.send('')
+                //res.render('users', {'user': user })
+            })
     })
 
     app.get('/cliente', function (req, res) {
-
         var like = '%' + (req.query.filtro).replace(' ', '%') + '%';
-
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn) {
 
-                db.query("select top 8 Cliente, Nombre, rfc, calle, colonia , telefono, numerointerior, numeroexterior, pobla , localidad, correo  from clients where cliente LIKE @busca OR nombre LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
-                    if (err)
-                        console.log(err);
-                    res.render('cliente', { 'cliente' : cliente });
-                });
-            //});
+            db.query("select top 8 Cliente, Nombre, rfc, calle, colonia , telefono, numerointerior, numeroexterior, pobla , localidad, correo  from clients where cliente LIKE @busca OR nombre LIKE @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
+                if (err)
+                    console.log(err);
+                //console.log(cliente)
+                res.render('cliente', { 'cliente' : cliente });
+            });
     });
 
     app.get('/Agenda', function (req, res){
         var usuario = req.user[0]
         var values = { usuario:[TYPES.NVarChar, 'MOST2'], cliente:[TYPES.SmallInt, 0], most:[TYPES.NVarChar, 'MOST1'] }
-        //mysql.open(connstring, function (err, conn) {
             db.query("select USUARIO FROM usuariosWeb where usuario <> @most AND usuario <> @usuario and cliente = @cliente ",values, (err, tecnico) => {
                 if (err)
                     console.log(err);
                 res.render('Agenda', { 'tecnico' : tecnico , 'user' : usuario});
             });
-        //});
     })
 
     app.get('/agendaPend', function (req, res) {
@@ -443,7 +390,6 @@ module.exports = function(app, passport) {
         }
 
             db.query(consulta ,{estatus:[TYPES.Char, 'Cancelada'], asignado:[TYPES.Char, req.query.asig]} ,  (err, pendient) => {
-							//mysql.open(connstring, function (err, conn) {
                 if (err)
                     console.log(err);
                 var i = 0;
@@ -470,48 +416,40 @@ module.exports = function(app, passport) {
                     p.value = pendient[i].id;
                     p.name = pendient[i].serie + '-' + pendient[i].orden;
                     pen.result.push(p);
-
                     i = i + 1;
                 }
                 setTimeout(function () {
-                    //console.log(pen)
                     res.send(pen);
                 }, 0);
 
             });
-        //});
     });
 
     // Modificar datos de cliente  (click en boton edit)
     app.get('/client', function (req, res) {
         var like = req.query.filtro
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn) {
-              db.query("select * from clients where cliente = @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
-                  if (err)
-                      console.log(err);
-                  res.render('client', { 'cliente' : cliente });
-              });
-            //});
+            db.query("select * from clients where cliente = @busca " , {busca:[TYPES.Char, like]} ,  (err, cliente) => {
+                if (err)
+                    console.log(err);
+                res.render('client', { 'cliente' : cliente });
+            });
     });
 
 		app.get('/Producto', function (req, res) {
         var like = req.query.filtro
         if (req.query.filtro != "")
-            //mysql.open(connstring, function (err, conn) {
-              db.query("select * from prods where articulo = @busca " , {busca:[TYPES.NVarChar, like]} ,  (err, producto) => {
-                  if (err)
-                      console.log(err);
-                  res.render('Producto', { 'articulo' : producto });
-              });
-            //});
+            db.query("select * from prods where articulo = @busca " , {busca:[TYPES.NVarChar, like]} ,  (err, producto) => {
+                if (err)
+                    console.log(err);
+                res.render('Producto', { 'articulo' : producto });
+            });
     });
-
 
     app.get('/sistemas', function (req, res) {
       res.render('loginSis', { message: req.flash('loginMessage') });
       //res.render('Sistemas');
-  });
+    });
   app.get('/sistema', function (req, res) {
 
         if (req.query.fecha){
@@ -522,47 +460,40 @@ module.exports = function(app, passport) {
         if (typeof(req.user) == "undefined"){
           res.redirect('/sistemas')
         } else {
-          var usuario = req.user[0].Usuario
-          var fecha = fechas;
-          //mysql.open(connstring, function (err, conn) {
+            var usuario = req.user[0].Usuario
+            var fecha = fechas;
             db.query("select * from soportesistemas where Atendio = @user AND fechatrabajo = @date " , {user: [TYPES.Char, usuario ], date :[TYPES.Char, fecha]} ,  (err, services) => {
                 if (err)
                     console.log(err);
                 res.render('Sistemas', {mesage: '', user : req.user[0], servicios: services , date : fechas});
             });
-        //});
       }
     });
 
   app.get('/credito', function(req, res){
-      //console.log(req.query.cliente);
-      var cliente = req.query.cliente.trim();
-      var fecha = newDate(new Date());
-      var disponible = []
-      //mysql.open(connstring, function (err, conn) {
-
+        var cliente = req.query.cliente.trim();
+        var fecha = newDate(new Date());
+        var disponible = []
         db.query("select * from clients where cliente = @client AND credito > @credito " , {client :[TYPES.Char, cliente], credito:[TYPES.SmallInt, 0]} , (err, client) => {
             if (err)
                 console.log(err);
             if (client.length > 0){
-              db.query("select Round(SUM(SALDO), 2) as 'Disponible' from cobranza where cliente = @client AND saldo > @saldo  " , {client:[TYPES.Char, cliente], saldo: [TYPES.SmallInt, 0]} , (err, Dis) => {
-                  if (err)
+                db.query("select Round(SUM(SALDO), 2) as 'Disponible' from cobranza where cliente = @client AND saldo > @saldo  " , {client:[TYPES.Char, cliente], saldo: [TYPES.SmallInt, 0]} , (err, Dis) => {
+                    if (err)
                     console.log(err)
-                  disponible.push(Dis[0])
-                  //console.log(disponible)
-              })
-              setTimeout(function () {
+                    disponible.push(Dis[0])
+                    //console.log(disponible)
+                })
+                setTimeout(function () {
                 db.query("select * from cobranza where cliente = ? AND saldo > 0 and fecha_venc < ? " , {client:[TYPES.Char, cliente], dates:[TYPES.Char, fecha]} , (err, cobranza) => {
                     if (err)
                         console.log(err);
                     console.log(disponible)
                     res.render('credito', {mesage: '', cli : client, cob : cobranza, D: disponible[0]});
                 })
-              }, 500);
-
+                }, 500);
             }
         });
-    //});
   });
 
   app.post('/loginSistemas', passport.authenticate('local-login', {
@@ -570,21 +501,18 @@ module.exports = function(app, passport) {
             failureRedirect : '/Sistemas', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
     }),
-
         function(req, res) {
             if (req.body.remember) {
               req.session.cookie.maxAge = 1000 * 60 * 3;
             } else {
               req.session.cookie.expires = false;
             }
-        //res.redirect('/');
     });
 	// LOGIN ===============================
 	// show the login form
 	app.get('/login', function(req, res) {
-
 		// render the page and pass in any flash data if it exists
-		res.render('login');
+		res.render('login', { message: req.flash('loginMessage') });
 	});
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
@@ -602,8 +530,6 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
     app.post('/loginClien', passport.authenticate('local-login', {
-
-
         successRedirect : '/service', // redirect to the secure profile section
         failureRedirect : '/servicio', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
@@ -698,29 +624,23 @@ module.exports = function(app, passport) {
 
     function imagenes(req, res, next) {
         var user = req.user[0].Usuario;
-
         Consulta = "select * FROM ordenImagen where OrdenNo = @orden AND serie = @serie ";
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, {orden:[TYPES.Int, req.query.numero], serie:[TYPES.Char, req.query.serie]} , (err, imagen) => {
-                if (err)
-                    console.log(err);
+        db.query(Consulta, {orden:[TYPES.Int, req.query.numero], serie:[TYPES.Char, req.query.serie]} , (err, imagen) => {
+            if (err)
+                console.log(err);
 
-                //console.log(imagen);
-								var id = req.query.serie + req.query.numero;
-                if (user.trim() === "CLIGEN") {
-                    console.log('cliente')
-                    res.render('imagesClient', { 'imagen' : imagen , 'drive' : Drive });
+            var id = req.query.serie + req.query.numero;
+            if (user.trim() === "CLIGEN") {
+                console.log('cliente')
+                res.render('imagesClient', { 'imagen' : imagen , 'drive' : Drive });
+            } else {
+                if (req.user[0].proveedor === 1){
+                    res.render('imagesProv', { 'imagen' : imagen , 'drive' : Drive, ide: id });
                 } else {
-									if (req.user[0].proveedor === 1){
-										res.render('imagesProv', { 'imagen' : imagen , 'drive' : Drive, ide: id });
-									} else {
-										res.render('images', { 'imagen' : imagen , 'drive' : Drive, ide: id });
-									}
-
-
+                    res.render('images', { 'imagen' : imagen , 'drive' : Drive, ide: id });
                 }
-            });
-        //});
+            }
+        });
     };
 
 
@@ -746,39 +666,31 @@ module.exports = function(app, passport) {
     });
 
     function seguimiento(req, res, next) {
-				var admon = req.user[0].admon
+			var admon = req.user[0].admon
         Consulta = "select id, ID_pendiente, venta, tipoEquipo FROM ordenes where id = @id" ;
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, {id:[TYPES.Int, req.query.id]},function (err, orden1) {
-                if (err)
-                    console.log(err);
-								if (req.user[0].Cliente === 1 || req.user[0].proveedor === 1){
-										res.render('comentarios', { 'orden' : orden1[0] });
-								} else {
-									if (orden1[0].tipoEquipo === 'Servicio') {
-											res.render('eventosServicio', { 'orden' : orden1[0] });
-									} else {
-
-											res.render('eventos', { 'orden' : orden1[0] , 'admon': admon});
-									}
-								}
-
-            });
-        //});
-    }    ;
-
+        db.query(Consulta, {id:[TYPES.Int, req.query.id]},function (err, orden1) {
+            if (err)
+                console.log(err);
+            if (req.user[0].Cliente === 1 || req.user[0].proveedor === 1){
+                    res.render('comentarios', { 'orden' : orden1[0] });
+            } else {
+                if (orden1[0].tipoEquipo === 'Servicio') {
+                    res.render('eventosServicio', { 'orden' : orden1[0] });
+                } else {
+                    res.render('eventos', { 'orden' : orden1[0] , 'admon': admon});
+                }
+            }
+        });
+    } ;
 
     app.get('/Usuario', function (req, res) {
-        //mysql.open(connstring, function (err, conn) {
         db.query("select * from usuariosWeb where usuario = @usuario ", {usuario:[TYPES.Char, req.query.clave]} , (err, user) => {
             if (err)
                 console.log(err);
-
             res.render('updateUser', { 'user' : user[0] });
-
         });
-        //});
     });
+  
 
     app.get('/servicio', function (req, res) {
         //console.log(req.)
@@ -880,30 +792,26 @@ module.exports = function(app, passport) {
         } else {
             Consulta = "select id, Serie, Orden, Estatus, ClienteNom, TipoEquipo, Registro, Pro_Observ, DATEADD(second, 30, Fecha_ing)  , UsuHora_ing from ordenes where estatus <> @estatus AND fecha_ing = @dates ";
         }
-        //mysql.open(connstring, function (err, conn) {
-            db.query(Consulta, valores , (err, orden) => {
-                if (err)
-                    console.log(err);
-                res.render('Pendientes', { 'ordenes' : orden, 'user': req.user[0], imagen : Drive });
-            });
-        //});
+        db.query(Consulta, valores , (err, orden) => {
+            if (err)
+                console.log(err);
+            res.render('Pendientes', { 'ordenes' : orden, 'user': req.user[0], imagen : Drive });
+        });
     };
 
     function orden(req, res, next) {
 
         var value = { id:[TYPES.Int, req.query.clave]}
-
         db.query("select * from ordenes where id =@id ", value, (err, ordens) => {
             if (err) {
-                console.error(err);
+                console.log(err);
             }
             if (ordens[0].ID_pendiente > 0) {
                 var pendiente = {
                     id : [TYPES.Int, ordens[0].ID_pendiente],
-										reporte : [TYPES.Char, 'Reporte']
+					reporte : [TYPES.Char, 'Reporte']
                 }
                 db.query("select ID, PENDIENTE, OBSERV, HoraR, DATEADD(second, 0, FechaR) as  'FechaR' from pendient where id = @id", pendiente, (err, pendient) => {
-
                     if (err){
                         console.log(err)
                     }
@@ -919,12 +827,10 @@ module.exports = function(app, passport) {
                     db.query(consul, pendiente, (err, respues) => {
                         if (err)
                             console.log(err);
-                        //console.log(respues);
                         if (req.user[0].Cliente === 1) {
                             res.render('ordenCliente', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
-												} else if (req.user[0].proveedor === 1) {
-														res.render('ordenProveedor', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
-
+                        } else if (req.user[0].proveedor === 1) {
+                                res.render('ordenProveedor', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
                         } else {
                               res.render('Orden', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user': req.user[0] });
                         }
@@ -937,7 +843,6 @@ module.exports = function(app, passport) {
     };
 
     function empleados(req, res, next) {
-        //mysql.open(connstring, function (err, conn) {
 				var areas ={
 					soporte: [TYPES.Char, 'SOPORTE'],
                     uno: [TYPES.SmallInt, 1],
@@ -960,8 +865,6 @@ module.exports = function(app, passport) {
 							res.render('empleados', { 'usuarios' : empleado });
 					});
 				}
-
-        //});
     }    ;
 
     function newDate(fecha1) {

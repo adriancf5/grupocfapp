@@ -8,10 +8,7 @@ var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./config');
 var Connection = require('tedious').Connection,
     Request = require('tedious').Request
-    //TYPES = require('tedious').TYPES;
 var config = dbconfig.params
-//var connstring = dbconfig.localDB;
-//var connection = mysql.createConnection(dbconfig.connection);
 
 var connectionString = dbconfig.SQL_CONN;
 const friendly = require('tedious-friendly');
@@ -25,7 +22,6 @@ const db = friendly.create({ connectionString, connectionConfig, poolConfig });
 
 module.exports = function (passport) {
 
-
     // expose this function to our app using module.exports
 
     // =========================================================================
@@ -36,7 +32,6 @@ module.exports = function (passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-        //console.log(user);
         done(null, user.Id);
     });
 
@@ -51,11 +46,7 @@ module.exports = function (passport) {
             }
                 done(err, user);; // --> [{ id: '8F41C105-1D24-E511-80C8-000C2927F443', email: 'bart@hotmail.com' }]
         });
-        //mysql.open(connstring, function (err, conn) {
-            //conn.query("select * from usuariosWeb where id = " + id, function (err, user) {
-                //done(err, user);
-            //});
-        //});
+ 
     });
 
     // =========================================================================
@@ -201,7 +192,7 @@ module.exports = function (passport) {
                 if (err) {
                     console.log(err)
                 }
-                console.log(user)
+                //console.log(user)
                 if (user.length > 0) {
                     if (username === 'CLIGEN') {
                         //console.log("CLIGEN")
@@ -239,39 +230,22 @@ module.exports = function (passport) {
 
                         });
                     }
-                //done(err, user);; // --> [{ id: '8F41C105-1D24-E511-80C8-000C2927F443', email: 'bart@hotmail.com' }]
                 var hash = ''
                 if (user.length > 0 && username != 'CLIGEN') {
-                    if (user[0].Password === password) {
-                        // all is well, return successful user
-                        console.log('success')
-                        return done(null, user[0]);
 
+                    var encrypted_length = user[0].Password.length;
+
+                    if (encrypted_length != 60) {
+                        //throw "Not a valid BCrypt hash.";
+                        hash = bcrypt.hashSync(user[0].Password);
                     } else {
-                        var encrypted_length = user[0].Password.length;
-
-                        if (encrypted_length != 60) {
-                            //throw "Not a valid BCrypt hash.";
-                            hash = bcrypt.hashSync(user[0].Password);
-                        } else {
-                            hash = user[0].Password;
-                        }
-
-                                    // if the user is found but the password is wrong
-                        if (!bcrypt.compareSync(password, hash)){
-                            return done(null, false, req.flash('loginMessage', 'Oops! Contraseña incorrecta.'));   
-                        } else{
-                            //if (user[0].activo === 1 ){
-                                return done(null, user[0]);
-                           // } else {
-                           //     return done(null, false, req.flash('loginMessage', 'Su usuario ha sido deshabilitado, avise al admistrador de sistema.'));
-                           // } 
-                        }
-                            //console.log(user[0].password);
-                            // create the loginMessage and save it to session as flashdata
-                            
-                           
-
+                        hash = user[0].Password;
+                    }
+                    // if the user is found but the password is wrong
+                    if (!bcrypt.compareSync(password, hash)){
+                        return done(null, false, req.flash('loginMessage', 'Oops! Contraseña incorrecta.'));   
+                    } else{
+                            return done(null, user[0]);
                     }
                 }
             } else {
