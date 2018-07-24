@@ -804,7 +804,7 @@ module.exports = function(app, passport) {
         var value = { id:[TYPES.Int, req.query.clave]}
         db.query("select * from ordenes where id =@id ", value, (err, ordens) => {
             if (err) {
-                console.error(err);
+                console.log(err);
             }
             if (ordens[0].ID_pendiente > 0) {
                 var pendiente = {
@@ -812,7 +812,6 @@ module.exports = function(app, passport) {
 					reporte : [TYPES.Char, 'Reporte']
                 }
                 db.query("select ID, PENDIENTE, OBSERV, HoraR, DATEADD(second, 0, FechaR) as  'FechaR' from pendient where id = @id", pendiente, (err, pendient) => {
-
                     if (err){
                         console.log(err)
                     }
@@ -828,12 +827,10 @@ module.exports = function(app, passport) {
                     db.query(consul, pendiente, (err, respues) => {
                         if (err)
                             console.log(err);
-                        //console.log(respues);
                         if (req.user[0].Cliente === 1) {
                             res.render('ordenCliente', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
-												} else if (req.user[0].proveedor === 1) {
-														res.render('ordenProveedor', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
-
+                        } else if (req.user[0].proveedor === 1) {
+                                res.render('ordenProveedor', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user' : req.user[0] });
                         } else {
                               res.render('Orden', { 'orden' : ordens[0], 'pendiente': pendient[0], 'respuesta': respues, 'user': req.user[0] });
                         }
@@ -846,7 +843,6 @@ module.exports = function(app, passport) {
     };
 
     function empleados(req, res, next) {
-        //mysql.open(connstring, function (err, conn) {
 				var areas ={
 					soporte: [TYPES.Char, 'SOPORTE'],
                     uno: [TYPES.SmallInt, 1],
@@ -869,8 +865,6 @@ module.exports = function(app, passport) {
 							res.render('empleados', { 'usuarios' : empleado });
 					});
 				}
-
-        //});
     }    ;
 
     function newDate(fecha1) {

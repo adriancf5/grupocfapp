@@ -22,7 +22,6 @@ const db = friendly.create({ connectionString, connectionConfig, poolConfig });
 
 module.exports = function (passport) {
 
-
     // expose this function to our app using module.exports
 
     // =========================================================================

@@ -13,13 +13,11 @@ const db = friendly.create({ connectionString, connectionConfig, poolConfig });
 
 module.exports = function (app, passport){
 
-
-
-
-
-
-
-
-
-    
+    app.get('/detalleequipo', function(req, res){
+        db.query("select * from equipos where id = 2 ", (err, datos)=>{
+            if (err)
+                console.log(err)
+            res.render('detalleEquipo', {equipo:datos[0]})  
+        })
+    })
 };

@@ -3,7 +3,6 @@ module.exports = {
     //'SQL_CONN': 'Driver={SQL Server Native Client 11.0};Server=tcp:localhost,1400;UID=sa;PWD=12345678;Database={C:\\MybusinessDataBase\\MyBusinessPOS2011.mdf};',
     //'SQL_CONN': "Driver={SQL Server Native Client 10.0};Server=tcp:grupocf2014.database.windows.net,1433;Database=servicio16;Uid=sistemas@grupocf2014;Pwd=Nr32mA64S;Encrypt=yes;Connection Timeout=30;" ,
     'localDB': "Driver={SQL Server Native Client 10.0};Server=tcp:192.168.0.4,1400;Database={C:\\MyBusinessDatabase\\MyBusinessPOS2011.mdf};UID=sg;PWD=12345678;" ,
-
     //'localDB': "Driver={SQL Server Native Client 11.0};Server=(local),1400;Database={C:\\MyBusinessDatabase\\MyBusinessPOS2011.mdf}; Trusted_Connection=Yes;",
     //'localDB': "Driver={SQL Server Native Client 11.0};Server=(local),1400;Database={Azure6}; Trusted_Connection=Yes;",
 
@@ -12,7 +11,7 @@ module.exports = {
     'DriveN': "\/service\/",
     'DriveL': "\/service\/",
     'images': "C:/nodejs/grupocfapp/public/service/",
-    'htmlFile': "C:/nodejs/grupocfapp/public/Orden/",
+    'htmlFile': "C:/nodejs/grupocfapp/public/",
     'emailAdmon': "gerentesop@grupocf.com.mx",
     'userAdmon': "GABRIEL",
     'nameAdmon': "GABRIEL MORENO UGALDE",
@@ -20,6 +19,4 @@ module.exports = {
     'emailDefault': 'soporte5qro@grupocf.com.mx',
     'password': '45Ad4n',
     'urlPublic': 'grupocfapp.com'
-
-
 };
