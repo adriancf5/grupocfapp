@@ -1,0 +1,146 @@
+doctype html
+html
+    head
+        title= title
+        meta(name='viewport' content='initial-scale=1, user-scalable=no', width='device-width' )
+        link(rel='stylesheet', href='/stylesheets/ioicon.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/navbar-fixed-top.css')
+        //-link(rel='stylesheet', href='/stylesheets/iconos.css', type="text/css", charset="utf-8")
+        link(rel='stylesheet', href='/stylesheets/bootstrap-table.css')
+        link(rel='stylesheet', href='/stylesheets/datepicker3.css')
+        link(rel='stylesheet', href='/stylesheets/widget.css')
+        link(rel='stylesheet', href='/stylesheets/perfil.css')
+        link(rel='stylesheet', href='/stylesheets/demo.css')
+        //link(rel='stylesheet', href='/stylesheets/carousel.css')
+
+    body
+
+
+        nav(role="navigation").navbar.navbar-defaul.navbar-fixed-top.no-print
+            div.container
+
+                div.navbar-header
+                    img(src="/images/logo.png").logo
+
+                    span.nameEmp GRUPO CF
+                    button(id="bartab" type="button" data-toggle="collapse"  data-target="#sidebar-collapse" aria-expanded="false" aria-controls="navbar").navbar-toggle.collapsed
+                        span.sr-only Toggle navigation
+                        span.ion-navicon-round
+
+                    a(href="#").navbar-brand
+
+                div(id="navbar" ).navbar-collapse.collapse
+                    ul.nav.navbar-nav
+
+                    ul.nav.navbar-nav.navbar-right
+                      
+        div#sidebar-collapse.col-sm-3.col-lg-2.sidebar.no-print
+            div.form-group(style="margin-top:40px;")
+            ul.nav.menu
+                li.parnt
+                    a(href="/poliza/InicioPoliza")
+                        span.ion-home.icono-sidebar
+                        | Inicio
+
+                li.active
+                     a(href="/poliza/DetalleEquipo/")
+                        span.ion-clipboard.icono-sidebar
+                        | Inventario
+
+                li.parent
+                     a(href="/SolicitudDeServicio")
+                        span.ion-clipboard.icono-sidebar
+                        | Historial de servicios
+
+                li.parent
+                     a(href="/poliza/SolicitudDeServicio/")
+                        span.ion-clipboard.icono-sidebar
+                        | Nueva solicitud de servicio
+
+                li(role="presentation" class="divider")
+                li
+                        //a(href="Javascript:window.top.close();")
+                        //a (href="Javascript:window.close();")
+                        span.ion-log-out.icono-sidebar
+                        | Salir
+                
+               
+
+
+
+        div.ts.see.col-sm-9.col-sm-offset-3.col-lg-10.col-lg-offset-2.main.no-print
+            ul(role="tablist").nav.nav-tabs.no-print
+                li.active#inicio
+                    a(href="#principal" data-toggle="tab") Inicio
+                //li#ServicioT
+                    a(href="#ServicioTable" data-toggle="tab") Servicios
+
+        div.span.loader
+                div.cloud
+        li
+             a(href="#Agenda" data-toggle="tab" type-send="ajax-tab" tab-name="Agenda" data-source="/Agenda" tab-target="AgendaTab" id="AgendaCal") Agenda
+            
+        div.tab-content.see.col-sm-9.col-sm-offset-3.col-lg-1.col-lg-offset-2.main
+
+            div(id="principal" class="fade in active" ).tab-pane
+                div.col-lg-12
+        div.row
+                    div.col-md--sm-9.col-sm-offset-3.col-lg-6.col-lg-offset-2.ParentPoliza
+                        div.panel.panel-default.polizas
+                            div.panel-heading.text-left
+                                span
+                                | Servicio:
+                            div.panel-body.text-left
+                            |No de Serie:  
+                            =orden.Registro
+                            
+                            
+                            div
+                            |Marca:
+                            =orden.Marca
+                            
+                            div
+                            |Modelo:  
+                            =orden.Modelo
+
+                            div
+                            |Descripción del servicio:  
+                            =orden.Pro_Observ
+                            
+                            
+            
+                        
+
+                               
+
+                      div.col-sm-3.col-sm.ParentPoliza                                     
+                            
+                        div.col-md-sm-2.col-lg-3.ParentPolizaSer
+                        div.panel.panel-default.polizasSer
+                            div.panel-heading.text-center
+                                span
+                                | Servicios recientes                           
+      
+                            div.panel-body.text-left
+                            div.col-xs-12.col-md-4.col-lg-3
+                        each i in respues                    
+                            div.panel
+                                div.row                                    
+                                    div.col-xs-8.col-lg-8.widget-center
+                                      
+                                        div
+                                        =i.Observ     
+                                       
+                                        div
+                                        =i.respuesta   
+                                        
+                                        div  
+                                        =i.FechaT 
+                                       
+                        form(action='/poliza/comentarios?id='+pendiente.ID method='post')
+                div.form-group
+                    label Comentarios
+                        input(type="text" name="comenServicio" style="margin:10px" placeholder="        ")
+                        div    
+                        button(type="submit" name="btnEnviar" ) Enviar             

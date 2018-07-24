@@ -1,0 +1,10 @@
+body{
+    margin-left:10%;
+    margin-right:10%;
+  }
+input{
+    font: 1em;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
