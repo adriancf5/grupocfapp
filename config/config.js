@@ -1,5 +1,5 @@
 module.exports = {
-    'SQL_CONN': 'Driver={SQL Server Native Client 13.0};Server=tcp:192.168.0.4,1400;UID=sg;PWD=12345678;Database={C:\\MyBusinessDatabase\\MyBusinessPOS2011.mdf};',
+    'SQL_CONN': 'Driver={SQL Server Native Client 13.0};Server=tcp:192.168.0.4,1400;UID=sg;PWD=12345678;Database={C:\\MyBusinessDatabase\\2018\\MyBusinessPOS2011.mdf};',
     //'SQL_CONN': 'Driver={SQL Server Native Client 11.0};Server=tcp:localhost,1400;UID=sa;PWD=12345678;Database={C:\\MybusinessDataBase\\MyBusinessPOS2011.mdf};',
     //'SQL_CONN': "Driver={SQL Server Native Client 10.0};Server=tcp:grupocf2014.database.windows.net,1433;Database=servicio16;Uid=sistemas@grupocf2014;Pwd=Nr32mA64S;Encrypt=yes;Connection Timeout=30;" ,
     'localDB': "Driver={SQL Server Native Client 10.0};Server=tcp:192.168.0.4,1400;Database={C:\\MyBusinessDatabase\\MyBusinessPOS2011.mdf};UID=sg;PWD=12345678;" ,

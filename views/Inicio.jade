@@ -86,7 +86,7 @@ html
                         span(data-toggle="collapse" href="#newUser" class="ion-android-add pull-right " style="font-size:1.2em; padding:3px 5px 5px 5px;")
                             em
                     ul.children.collapse#newUser
-                        if (user.admon === 1)
+                        //if (user.admon === 1)
                             li
                                 a(data-toggle="modal" data-target="#UserNew" )
                                     span Nuevo Usuario
@@ -94,7 +94,7 @@ html
                                 a(href="#Users" data-toggle="tab" type-send="ajax-tab" tab-name="Usuarios" data-source="/usersTable" tab-target="UsuariosTab" id="usersTab") Usuarios
                             li
                                 a(href="#UsersClient" data-toggle="tab" type-send="ajax-tab" tab-name="UClientes" data-source="/uclientsTable" tab-target="UclientsTab" id="uClientsTab") Clientes Contraseña
-                if (user.admon === 1)
+                //if (user.admon === 1)
                     li
                         a(href="#Sistemas" data-toggle="tab" type-send="ajax-tab" tab-name="Sistemas" data-source="/SistemasTable" tab-target="SsitemasTab")
                             span.ion-flask.icono-sidebar
@@ -205,6 +205,7 @@ html
                                         for i in ordenes
                                             if (i.estatus === 'Terminado' && i.TipoEquipo != 'Servicio')
                                                 - n = n + 1;
+                                            
                                             if (i.estatus === 'Terminado' && i.TipoEquipo === 'Servicio')
                                                 - s = s + 1;
                                         div.large(style="font-size:1.2em;")

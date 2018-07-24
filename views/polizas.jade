@@ -1,0 +1,156 @@
+doctype html
+html
+    head
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        meta(name='viewport' content='initial-scale=1, user-scalable=no', width='device-width' )
+        link(rel='stylesheet', href='/stylesheets/ioicon.css')
+        link(rel='stylesheet', href='/stylesheets/perfil.css')
+        link(rel='stylesheet', href='/stylesheets/polizas.css')
+        link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
+
+    body(style="background-color:rgb(242, 242, 242);")
+          nav(role="navigation").navbar.navbar-defaul.navbar-fixed-top.no-print
+            div.container
+
+                div.navbar-header
+                    img(src="/images/logo.png").logo
+
+                    span.nameEmp GRUPO CF
+                    button(id="bartab" type="button" data-toggle="collapse"  data-target="#sidebar-collapse" aria-expanded="false" aria-controls="navbar").navbar-toggle.collapsed
+                        span.sr-only Toggle navigation
+                        span.ion-navicon-round
+
+                    a(href="#").navbar-brand
+
+                div(id="navbar" ).navbar-collapse.collapse
+                    ul.nav.navbar-nav
+
+                    ul.nav.navbar-nav.navbar-right
+                        //li.dropdown
+                            a.ion-android-settings(href="#drop" role="button" class="dropdown-toggle" data-toggle="dropdown")
+                            ul.dropdown-menu(role="menu" aria-labelledby="drop")
+                                li
+                                    a(href="#Config") Configuracion
+                                li
+                                    a Opcion 2
+                        //li.dropdown.bienvenido
+                            p.wellcome Bienvenido(a)
+                                if (user)
+                                    =user.Usuario
+                        li.dropdown
+                            a.ion-ios7-contact(href="#drop1" role="button" class="dropdown-toggle" data-toggle="dropdown")
+                            ul.dropdown-menu(role="menu" aria-labelledby="drop1")
+                                li
+                                    a(href="/logout").ion-log-out Salir
+                                    
+
+
+        div.row.col-sm-7.col-sm-offset-1(style="margin-top:50px;")
+            div.modal-header
+                //button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                h4 Polizas
+                
+            
+        div.row.col-sm-7.col-sm-offset-1(style="margin-top:30px;")
+            div.modal-header
+                //button(type="button" class="close" data-dismiss="modal" aria-hidden="true").ion-close-round
+                h5 Datos del equipo
+         div.modal-body
+
+        
+                form(width="50%" action="/polizas" method="post" style="margin-top:50px" float:right)
+                    div.form-group.clearboth
+                        div.clearboth Buscar por código de barras
+                        input(type="text" name="CodigoBarras" id="CodigoBarras" autocomplete="off" style="margin-top:30px" placeholder="Ingresa el código de barras")
+                        
+                        clearboth Buscar por Número de serie
+                        input(type="text" name="noSerie" id="noSerie" autocomplete="off" style="margin-top:30px" placeholder="Ingresa el número de serie")
+                        
+                        button(type="submit" name="btnBuscar") Buscar
+                        
+                            //  div#clientes.clearboth
+                                div#nombreCliente.clearboth
+
+                        div.clearbooth Marca
+                        input(type="text" name="marca" value=poliza.Marca style="margin-top:30px")
+                        
+                        clearbooth Modelo
+                        input(type="text" name="modelo" value=poliza.Modelo style="margin-top:30px")
+
+
+                        div.form-group.clearboth
+                        div.clearbooth Descripción
+                        input(type="text" name="desc" value=poliza.Observaciones style="margin-top:30px")
+                        // en la base de datos no hay atributos para las fotos
+
+                        clearbooth Fotos
+                        input(type="images" name="foto" style="margin-top:30px")
+                   
+                        div.form-group.clearboth
+                        div.clearboth Más Información                
+                <button ng-click="ocultar=true">Ocultar</button>
+                <button ng-click="ocultar=false">Mostrar</button>
+
+                form(width="50%" action="/polizas" method="post" style="margin-top:30px" float:left)
+                    div.form-group.clearboth                      
+                        clearbooth  Usuario
+                        input(type="text" name="usu" value=poliza.Usuario style="margin-top:20px")
+
+                        clearbooth  Contraseña
+                        input(type="text" name="psw"  value=poliza.Pasword style="margin-top:20px")
+
+                        clearbooth Memoria RAM
+                        input(type="text" name="RAM"  value=poliza.RAM style="margin-top:20px")
+
+                        clearbooth Observaciones de RAM
+                        input(type="text" name="RAM_observ" value=poliza.RAM_observ style="margin-top:20px")
+
+                        div.clearbooth  Disco Duro
+                        input(type="text" name="HDD"  value=poliza.HDD style="margin-top:20px")
+
+                        clearbooth observaciones disco duro
+                        input(type="text" name="HDD_observ"  value=poliza.HDD_observ style="margin-top:20px")
+            
+                        clearbooth  CPU
+                        input(type="text" name="CPU"  value=poliza.CPU style="margin-top:20px")
+
+                        clearbooth observaciones CPU
+                        input(type="text" name="CPU_observ" value=poliza.CPU_observ style="margin-top:20px")
+
+                        div.clearbooth  Motherboard
+                        input(type="text" name="Motherboard" value=poliza.Motherboard style="margin-top:20px")
+
+                        clearbooth  Sistema operativo
+                        input(type="text" name="sistemaOperativo" value=poliza.SistemaOperativo style="margin-top:20px")
+                        
+                        clearbooth  Ubicación
+                        input(type="text" name="ubicacion" value=poliza.Ubicacion style="margin-top:20px")
+
+                        clearbooth  Monitor
+                        input(type="text" name="Monitor" value=poliza.Monitor style="margin-top:20px")
+
+                        div.clearbooth  Teclado
+                        input(type="text" name="Teclado" value=poliza.Teclado style="margin-top:20px")
+                
+                        clearbooth  Mouse
+                        input(type="text" name="Mouse" value=poliza.Mouse style="margin-top:20px")
+
+                        clearbooth Otros Accesorios
+                        input(type="text" name="Otros_Acces" value=poliza.Otros_Acces)
+
+                form(width="50%" action="/polizas" method="get" style="margin-top:50px" float:right)
+                        h4 Datos de la poliza
+                        div.form-group.clearboth
+                        div.clearboth Cliente
+                        input(type="text" value=poliza.cliente name="nomPoliza")
+
+                        div.form-group.clearboth
+                        div.clearboth Fecha de vigencia
+                        input(type="text" value=poliza.FechaVencimiento name="fecVigencia")
+                    
+                        clearboth Tipo de poliza
+                        input(type="text" value=poliza.Mantenimiento name="mantenimiento")
+                        
+
+               
+
